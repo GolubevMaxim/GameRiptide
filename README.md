@@ -1,1 +1,1 @@
-# GameServerRiptide
+# GameRiptide
