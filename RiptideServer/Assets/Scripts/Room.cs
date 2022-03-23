@@ -1,54 +1,48 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RiptideNetworking;
 
 public class Room
 {
-    public Dictionary<ushort, User> users;
-    public bool bufferEmpty;
-    public Message chatBuffer;
+    private readonly Dictionary<ushort, User> _users;
+    private readonly RoomChat _roomChat;
 
     public Room()
     {
-        users = new Dictionary<ushort, User>();
-        chatBuffer = Message.Create(MessageSendMode.reliable, ServerToClientId.chat);
-        bufferEmpty = true;
+        _users = new Dictionary<ushort, User>();
+        _roomChat = new RoomChat();
+    }
+
+    public void AddMessageToChat(int userID, string chatMessage)
+    {
+        _roomChat.AddMessageToBuffer(userID, chatMessage);
+    }
+
+    public void SendChat()
+    {
+        _roomChat.SendMessages();
     }
 
     public void AddPlayer(ushort id, User user)
     {
-        users.Add(id, user);
+        _roomChat.AddUser(id);
+        _users.Add(id, user);
+        
         Debug.Log($"Room accepted the player {id}");
-        user.state = UserState.game;
+        
+        user.state = UserState.Game;
     }
 
     public bool RemovePlayer(ushort id)
     {
-        if (users.Remove(id))
+        if (_users.Remove(id))
         {
+            _roomChat.RemoveUser(id);
+            
             Debug.Log($"Room kicked out the player {id}.");
             return true;
         }
+        
         Debug.LogWarning($"Failed to remove player {id}.");
         return false;
-    }
-
-    public void AddMessageToBuffer(int userId, string str)
-    {
-        chatBuffer.AddInt(userId);
-        chatBuffer.AddString(str);
-    }
-
-    public void SendMessages()
-    {
-        if (bufferEmpty) return;
-        foreach (ushort userId in users.Keys)
-        {
-            NetworkManager.Singleton.server.Send(chatBuffer, userId, false);
-        }
-        bufferEmpty = true;
-        chatBuffer.Release();
-        chatBuffer = Message.Create(MessageSendMode.reliable, ServerToClientId.chat);
     }
 }

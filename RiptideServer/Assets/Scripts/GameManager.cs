@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,9 +20,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public Dictionary<ushort, User> users;
-    public Dictionary<ushort, User> usersInMenu;
-    public Room[] rooms;
+    public Dictionary<ushort, User> Users;
+    public Dictionary<ushort, User> UsersInMenu;
+    public Room[] Rooms;
 
     private void Awake()
     {
@@ -32,31 +31,31 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        users = new Dictionary<ushort, User>();
-        usersInMenu = new Dictionary<ushort, User>();
-        rooms = new Room[1];
-        rooms[0] = new Room();
+        Users = new Dictionary<ushort, User>();
+        UsersInMenu = new Dictionary<ushort, User>();
+        Rooms = new Room[1];
+        Rooms[0] = new Room();
     }
 
     public void RemoveUser(ushort userNetworkId)
     {
-        User user;
-        if (users.TryGetValue(userNetworkId, out user))
+        if (Users.TryGetValue(userNetworkId, out var user))
         {
-            user.removeFromGame(userNetworkId);
-            usersInMenu.Remove(userNetworkId);
-            users.Remove(userNetworkId);
+            user.RemoveFromGame(userNetworkId);
+            UsersInMenu.Remove(userNetworkId);
+            Users.Remove(userNetworkId);
         }
     }
 
     public bool AddUserToGame(ushort userNetworkId)
     {
-        User user;
-        if (usersInMenu.TryGetValue(userNetworkId, out user))
+        if (UsersInMenu.TryGetValue(userNetworkId, out var user))
         {
-            int room = 0;
+            var room = 0;
+            
             GetRoom(room).AddPlayer(userNetworkId, user);
-            usersInMenu.Remove(userNetworkId);
+            UsersInMenu.Remove(userNetworkId);
+            
             return true;
         }
         return false;
@@ -64,21 +63,20 @@ public class GameManager : MonoBehaviour
 
     public void RemoveUserFromGame(ushort userNetworkId)
     {
-        User user;
-        if (users.TryGetValue(userNetworkId, out user))
+        if (Users.TryGetValue(userNetworkId, out var user))
         {
-            if (!user.removeFromGame(userNetworkId))
+            if (!user.RemoveFromGame(userNetworkId))
             {
                 Debug.LogWarning($"Failed to remove player {user.id} from room {user.room}: the player doesn't exisit in the room.");
                 return;
             }
-            usersInMenu.Add(userNetworkId, user);
+            UsersInMenu.Add(userNetworkId, user);
         }
     }
 
     private Room GetRoom(int roomNum)
     {
-        if (roomNum < 0 || roomNum >= rooms.Length) return null;
-        return rooms[roomNum];
+        if (roomNum < 0 || roomNum >= Rooms.Length) return null;
+        return Rooms[roomNum];
     }
 }

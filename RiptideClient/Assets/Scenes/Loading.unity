@@ -1368,6 +1368,7 @@ GameObject:
   - component: {fileID: 633845573}
   - component: {fileID: 633845571}
   - component: {fileID: 633845572}
+  - component: {fileID: 633845574}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1409,10 +1410,6 @@ MonoBehaviour:
   - {fileID: 1931968951}
   loginField: {fileID: 1408572873}
   passwordField: {fileID: 283655806}
-  chatField: {fileID: 158373101}
-  chatLog: {fileID: 888694125}
-  chatMessageButtonPrefab: {fileID: 5655690294956977450, guid: 52f1b12a8b4d5984a929dffa8b2a1999, type: 3}
-  maxMessageCount: 10
 --- !u!4 &633845573
 Transform:
   m_ObjectHideFlags: 0
@@ -1428,6 +1425,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &633845574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633845570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ce72f1a02654c1e94840e7072437399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chatLog: {fileID: 888694125}
+  chatMessageButtonPrefab: {fileID: 5655690294956977450, guid: 52f1b12a8b4d5984a929dffa8b2a1999, type: 3}
+  maxMessageCount: 10
+  chatField: {fileID: 158373101}
 --- !u!1 &720793592
 GameObject:
   m_ObjectHideFlags: 0
@@ -2132,8 +2145,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 633845572}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 633845574}
+        m_TargetAssemblyTypeName: Chat, Assembly-CSharp
         m_MethodName: SendChatClicked
         m_Mode: 1
         m_Arguments:

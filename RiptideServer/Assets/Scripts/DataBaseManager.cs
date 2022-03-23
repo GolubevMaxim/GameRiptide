@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Data;
 using Mono.Data.Sqlite;
@@ -23,10 +21,11 @@ public class DataBaseManager : MonoBehaviour
         }
     }
 
-    private const string filename = "playerdata.db";
-    private static string DBPath = @"/DataBases/playerdata.db";
-    private static SqliteConnection connection;
-    private static SqliteCommand command;
+    private const string Filename = "playerdata.db";
+    private static readonly string DBPath = @"/DataBases/playerdata.db";
+    
+    private static SqliteConnection _connection;
+    private static SqliteCommand _command;
 
     private void Awake()
     {
@@ -35,32 +34,35 @@ public class DataBaseManager : MonoBehaviour
 
     public static void OpenConnection()
     {
-        connection = new SqliteConnection("URI=file:" + Application.dataPath + DBPath);
-        command = new SqliteCommand(connection);
-        connection.Open();
+        _connection = new SqliteConnection("URI=file:" + Application.dataPath + DBPath);
+        _command = new SqliteCommand(_connection);
+        _connection.Open();
     }
 
     public static void CloseConnection()
     {
-        connection.Close();
-        command.Dispose();
+        _connection.Close();
+        _command.Dispose();
     }
 
     public static User SelectPlayerLogPas(string login, string password)
     {
         User user = null;
+        
         OpenConnection();
-        using (IDbCommand dbcmd = connection.CreateCommand())
+        
+        using (IDbCommand dataBaseCommand = _connection.CreateCommand())
         {
-            dbcmd.CommandText = $"SELECT id, characters from user where login = \"{login}\" and password = \"{password}\"";
-            using (IDataReader reader = dbcmd.ExecuteReader())
+            dataBaseCommand.CommandText = $"SELECT id, characters from user where login = \"{login}\" and password = \"{password}\"";
+            using (var reader = dataBaseCommand.ExecuteReader())
             {
                 if (reader.Read())
                 {
-                    user = new User(reader.GetInt32(0), login, 0);
+                    user = new User(reader.GetInt32(0), login, GameManager.Singleton.Rooms[0]);
                 }
             }
         }
+        
         CloseConnection();
         return user;
     }

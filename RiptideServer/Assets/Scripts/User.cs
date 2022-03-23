@@ -1,53 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public enum UserState
 {
-    unauthorized,
-    menu,
-    game
+    Unauthorized,
+    Menu,
+    Game,
 }
 
 public class User
 {
     public int id;
     public string nickname;
-    public int room;
+    [CanBeNull] public Room room;
     public UserState state;
-    public User(int id, string nickname, int lastRoom)
+    
+    public User(int id, string nickname, Room room = null)
     {
         this.id = id;
         this.nickname = nickname;
-        state = UserState.menu;
-        if (lastRoom < 0 || lastRoom >= GameManager.Singleton.rooms.Length) room = 0;
-        else room = lastRoom;
+        this.room = room;
+
+        state = UserState.Menu;
     }
 
-    public Room getRoom()
+    public Room GetRoom()
     {
-        if (state != UserState.game)
-        {
-            Debug.LogWarning($"Trying to get room from player not in game. User id = {id}");
-            return null;
-        }
-        if(room < 0 || room >= GameManager.Singleton.rooms.Length)
-        {
-            Debug.LogWarning($"Room number out of array boundaries in user {id}: room = {room}");
-            return null;
-        }
-        return GameManager.Singleton.rooms[room];
+        if (state == UserState.Game)
+            return room;
+        
+        Debug.LogWarning($"Trying to get room from player not in game. User id = {id}");
+        return null;
     }
 
-    public bool removeFromGame(ushort userNetworkId)
+    public bool RemoveFromGame(ushort userNetworkId)
     {
-        Room room = getRoom();
-        if(room == null)
-        {
+        if (room == null)
             return false;
-        }
+        
+        
         room.RemovePlayer(userNetworkId);
-        state = UserState.menu;
+        
+        state = UserState.Menu;
+        
         return true;
     }
 }
