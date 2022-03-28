@@ -61,16 +61,16 @@ public class Chat : MonoBehaviour
     {
         while (message.UnreadLength > 0)
         {
-            ChatLogAdd(message.GetInt(), message.GetString());
+            ChatLogAdd(message.GetUShort(), message.GetString());
             
         }
     }
     
-    public static void ChatLogAdd(int userid, string str)
+    public static void ChatLogAdd(int playerID, string str)
     {
         var button = Instantiate(Singleton.chatMessageButtonPrefab, Singleton.chatLog.transform, true);
-        button.transform.GetComponent<Text>().text = $"{userid}: {str}";
-        Debug.Log($"{userid}: {str}");
+        button.transform.GetComponent<Text>().text = $"{playerID}: {str}";
+        Debug.Log($"{playerID}: {str}");
         LayoutRebuilder.ForceRebuildLayoutImmediate(Singleton.chatLog.GetComponent<RectTransform>());
 
         Singleton._chatMessageButtons.Enqueue(button);

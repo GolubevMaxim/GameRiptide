@@ -51,9 +51,10 @@ public class GameManager : MonoBehaviour
     {
         if (UsersInMenu.TryGetValue(userNetworkId, out var user))
         {
-            var room = 0;
-            
-            GetRoom(room).AddPlayer(userNetworkId, user);
+            var room = GetRoom(0);
+
+            var player = new Player(userNetworkId, user, room);
+            room.AddPlayer(userNetworkId, player);
             UsersInMenu.Remove(userNetworkId);
             
             return true;

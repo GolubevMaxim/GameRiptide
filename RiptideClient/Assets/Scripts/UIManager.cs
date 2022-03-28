@@ -59,8 +59,12 @@ public class UIManager : MonoBehaviour
     public void ConnectClicked()
     {
         SetUI((int) UIs.Character);
-
         NetworkManager.Singleton.Connect();
+    }
+
+    public void EnterGameClicked()
+    {
+        GameManager.SetRoom("Room testing");
     }
     
     public void SetUI(int num)

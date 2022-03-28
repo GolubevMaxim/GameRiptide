@@ -6,6 +6,7 @@ public enum ClientToServerId : ushort
 {
     Logpas = 1,
     EnterGame,
+    LoadFinished,
     LeaveGame,
     Chat
 }
@@ -14,7 +15,9 @@ public enum ServerToClientId : ushort
 {
     Logpas = 1,
     RoomData,
-    Chat
+    Chat,
+    RoomPlayers,
+    RemovePlayerFromRoom
 }
 public class NetworkManager : MonoBehaviour
 {
@@ -136,6 +139,6 @@ public class NetworkManager : MonoBehaviour
     {
         if (!GameManager.Singleton.Users.TryGetValue(fromClientId, out var user)) return;
         
-        user.GetRoom().AddMessageToChat(user.id, message.GetString());
+        user.GetRoom().AddMessageToChat(fromClientId, message.GetString());
     }
 }

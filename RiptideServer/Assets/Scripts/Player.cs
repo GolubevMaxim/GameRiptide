@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using RiptideNetworking;
 
-public class Player : MonoBehaviour
+public class Player
 {
-    /*public static Dictionary<ushort, Player> list = new Dictionary<ushort, Player>();
+    public ushort networkID;
+    public Room room;
+    public User user;
+    public Vector2 position;
 
-    public ushort Id { get; private set; }
-    public string Username { get; private set; }
-
-    [MessageHandler((ushort)ClientToServerId.logpas)]
-    private static void Name(ushort fromClientId, Message message)
+    public Player(ushort networkID, User user, Room room)
     {
-        Debug.Log("Somehow Name was called...");
-    }*/
+        this.networkID = networkID;
+        this.user = user;
+        this.room = room;
+        position = Vector2.zero;
+
+    }
+
+    public void EnterRoom(Room room)
+    {
+        user.state = UserState.Game;
+        this.room = room;
+    }
 }

@@ -12,6 +12,12 @@ public class RoomChat
         _chatUserIDs = new List<ushort>();
     }
 
+    public RoomChat(List<ushort> chatUserIDs)
+    {
+        _chatBuffer = Message.Create(MessageSendMode.reliable, ServerToClientId.Chat);
+        _chatUserIDs = chatUserIDs;
+    }
+
     public void AddUser(ushort userID)
     {
         _chatUserIDs.Add(userID);

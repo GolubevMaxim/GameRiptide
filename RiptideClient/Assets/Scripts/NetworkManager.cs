@@ -7,6 +7,7 @@ public enum ClientToServerId : ushort
 {
     Logpas = 1,
     EnterGame,
+    LoadFinished,
     LeaveGame,
     Chat
 }
@@ -15,7 +16,9 @@ public enum ServerToClientId : ushort
 {
     Logpas = 1,
     RoomData,
-    Chat
+    Chat,
+    RoomPlayers,
+    RemovePlayerFromRoom
 }
 
 public class NetworkManager : MonoBehaviour
@@ -29,6 +32,7 @@ public class NetworkManager : MonoBehaviour
         {
             if (_singleton == null)
                 _singleton = value;
+                
             else if (_singleton != value)
             {
                 Debug.Log($"{nameof(NetworkManager)} instance already exists, destroying duplicate.");
@@ -119,7 +123,13 @@ public class NetworkManager : MonoBehaviour
         var message = Message.Create(MessageSendMode.reliable, ClientToServerId.EnterGame);
         
         message.AddUShort(0);
-        
+        GameManager.Singleton.loadingRoom = true;
+        Client.Send(message);
+    }
+
+    public void SendSceneLoadFinished()
+    {
+        var message = Message.Create(MessageSendMode.reliable, ClientToServerId.LoadFinished);
         Client.Send(message);
     }
 
@@ -141,6 +151,16 @@ public class NetworkManager : MonoBehaviour
         Debug.Log($"Got room number {roomNum}.");
         
         UIManager.Singleton.SetUI((int)UIs.Game);
-        GameManager.SetRoom("Room testing");
+        //GameManager.SetRoom("Room testing");
+    }
+
+    [MessageHandler((ushort)ServerToClientId.RoomPlayers)]
+    private static void RecieveRoomPlayers(Message message)
+    {
+        while (message.UnreadLength > 0)
+        {
+            Player player = new Player(message.GetUShort(), message.GetString(), message.GetFloat(), message.GetFloat());
+            GameManager.Singleton.AddPlayer(player);
+        }
     }
 }
