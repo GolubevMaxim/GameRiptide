@@ -25,7 +25,7 @@ public class Chat : MonoBehaviour
                 _singleton = value;
             else if (_singleton != value)
             {
-                Debug.Log($"{nameof(GameManager)} instance already exists, destroying duplicate.");
+                Debug.Log($"{nameof(Chat)} instance already exists, destroying duplicate.");
                 Destroy(value);
             }
         }

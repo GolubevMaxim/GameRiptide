@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum UIs
@@ -64,7 +65,7 @@ public class UIManager : MonoBehaviour
 
     public void EnterGameClicked()
     {
-        GameManager.SetRoom("Room testing");
+        SceneManager.LoadScene("Room testing");
     }
     
     public void SetUI(int num)
