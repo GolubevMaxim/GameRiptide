@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,6 +12,19 @@ public enum UIs
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] private GameObject canvas;
+    
+    [Header("UIs")]
+    [SerializeField] private GameObject activeUI;
+    [SerializeField] private GameObject[] menuUIs;
+    
+    [Header("Input fields")]
+    [SerializeField] private InputField loginField;
+    [SerializeField] private InputField passwordField;
+
+    public string Login => loginField.text;
+    public string Password => passwordField.text;
+    
     private static UIManager _singleton;
 
     public static UIManager Singleton
@@ -28,15 +42,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private GameObject canvas;
-    
-    [Header("UIs")]
-    [SerializeField] private GameObject activeUI;
-    [SerializeField] private GameObject[] menuUIs;
-    
-    [Header("Input fields")]
-    [SerializeField] public InputField loginField;
-    [SerializeField] public InputField passwordField;
     
     private void Awake()
     {
@@ -71,7 +76,10 @@ public class UIManager : MonoBehaviour
     public void SetUI(int num)
     {
         activeUI.SetActive(false);
-        if (num < 0 || num > menuUIs.Length) return;
+    
+        if (num < 0 || num > menuUIs.Length) 
+            throw new ArgumentOutOfRangeException(nameof(num));
+        
         activeUI = menuUIs[num];
         activeUI.SetActive(true);
     }
