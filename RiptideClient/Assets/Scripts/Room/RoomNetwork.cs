@@ -36,6 +36,8 @@ namespace Room
             var message = Message.Create(MessageSendMode.reliable, ClientToServerId.EnterGame);
         
             message.AddUShort(0);
+            message.AddVector2(new Vector2(0, 0));
+            message.AddString("playerName");
             
             NetworkManager.Singleton.Client.Send(message);
         }

@@ -10,7 +10,8 @@ public enum ClientToServerId : ushort
     EnterGame,
     LoadFinished,
     LeaveGame,
-    Chat
+    Chat,
+    DirectionInput,
 }
 
 public enum ServerToClientId : ushort
@@ -19,12 +20,13 @@ public enum ServerToClientId : ushort
     RoomData,
     Chat,
     RoomPlayers,
-    RemovePlayerFromRoom
+    RemovePlayerFromRoom,
+    UpdatePosition,
 }
 
 public class NetworkManager : MonoBehaviour
 {
-    public Client Client { get; private set; }
+    public RiptideNetworking.Client Client { get; private set; }
     
     [SerializeField] private string ip;
     [SerializeField] private string port;
@@ -55,7 +57,7 @@ public class NetworkManager : MonoBehaviour
     {
         RiptideLogger.Initialize(Debug.Log, Debug.Log, Debug.LogWarning, Debug.LogError, false);
         
-        Client = new Client();
+        Client = new RiptideNetworking.Client();
         
         Client.Connected += DidConnect;
         Client.ConnectionFailed += FailToConnect;

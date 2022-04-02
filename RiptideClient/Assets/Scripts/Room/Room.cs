@@ -19,7 +19,7 @@ namespace Room
         {
             var player = Instantiate(_playerTemplate, position, Quaternion.identity);
             player.Init(id, nickname);
-            
+            Player.Players.Dictionary[id] = player;
             _players.Add(id, player);
         }
     }

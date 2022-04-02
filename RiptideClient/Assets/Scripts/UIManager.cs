@@ -42,7 +42,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    
     private void Awake()
     {
         Singleton = this;
