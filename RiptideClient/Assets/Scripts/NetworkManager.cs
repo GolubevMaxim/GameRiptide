@@ -1,6 +1,7 @@
 using RiptideNetworking;
 using RiptideNetworking.Utils;
 using System;
+using Login;
 using UnityEngine;
 
 public enum ClientToServerId : ushort
@@ -9,7 +10,8 @@ public enum ClientToServerId : ushort
     EnterGame,
     LoadFinished,
     LeaveGame,
-    Chat
+    Chat,
+    DirectionInput,
 }
 
 public enum ServerToClientId : ushort
@@ -18,11 +20,17 @@ public enum ServerToClientId : ushort
     RoomData,
     Chat,
     RoomPlayers,
-    RemovePlayerFromRoom
+    RemovePlayerFromRoom,
+    UpdatePosition,
 }
 
 public class NetworkManager : MonoBehaviour
 {
+    public RiptideNetworking.Client Client { get; private set; }
+    
+    [SerializeField] private string ip;
+    [SerializeField] private string port;
+    
     private static NetworkManager _singleton;
 
     public static NetworkManager Singleton
@@ -32,7 +40,6 @@ public class NetworkManager : MonoBehaviour
         {
             if (_singleton == null)
                 _singleton = value;
-                
             else if (_singleton != value)
             {
                 Debug.Log($"{nameof(NetworkManager)} instance already exists, destroying duplicate.");
@@ -40,11 +47,6 @@ public class NetworkManager : MonoBehaviour
             }
         }
     }
-
-    public Client Client { get; private set; }
-    
-    [SerializeField] private string ip;
-    [SerializeField] private string port;
 
     private void Awake()
     {
@@ -55,7 +57,7 @@ public class NetworkManager : MonoBehaviour
     {
         RiptideLogger.Initialize(Debug.Log, Debug.Log, Debug.LogWarning, Debug.LogError, false);
         
-        Client = new Client();
+        Client = new RiptideNetworking.Client();
         
         Client.Connected += DidConnect;
         Client.ConnectionFailed += FailToConnect;
@@ -80,8 +82,8 @@ public class NetworkManager : MonoBehaviour
     }
 
     private void DidConnect(object sender, EventArgs e)
-    {
-        SendLogPas();
+    { 
+        LoginNetwork.SendLogPas();
     }
 
     private void FailToConnect(object sender, EventArgs e)
@@ -92,75 +94,5 @@ public class NetworkManager : MonoBehaviour
     private void DidDisconnect(object sender, EventArgs e)
     {
         UIManager.Singleton.SetUI((int) UIs.Authorization);
-    }
-
-    [MessageHandler((ushort) ServerToClientId.Logpas)]
-    private static void ReceiveLogPas(Message message)
-    {
-        if (message.GetBool())
-        {
-            Debug.Log($"Successfully authorized! Your id: {message.GetInt()}");
-            UIManager.Singleton.SetUI((int) UIs.Character);
-        }
-        else
-        {
-            Debug.Log("Wrong login or password.");
-        }
-    }
-
-    public void SendLogPas()
-    {
-        var message = Message.Create(MessageSendMode.reliable, ClientToServerId.Logpas);
-        
-        message.AddString(UIManager.Singleton.loginField.text);
-        message.AddString(UIManager.Singleton.passwordField.text);
-        
-        Client.Send(message);
-    }
-
-    public void SendEnterGameRequest()
-    {
-        var message = Message.Create(MessageSendMode.reliable, ClientToServerId.EnterGame);
-        
-        message.AddUShort(0);
-        GameManager.Singleton.loadingRoom = true;
-        Client.Send(message);
-    }
-
-    public void SendSceneLoadFinished()
-    {
-        var message = Message.Create(MessageSendMode.reliable, ClientToServerId.LoadFinished);
-        Client.Send(message);
-    }
-
-    public void SendLeaveGameRequest()
-    {
-        var message = Message.Create(MessageSendMode.reliable, ClientToServerId.LeaveGame);
-        
-        Client.Send(message);
-        
-        UIManager.Singleton.SetUI((int)UIs.Character);
-        GameManager.SetRoom("Menu");
-    }
-
-    [MessageHandler((ushort) ServerToClientId.RoomData)]
-    private static void ReceiveRoomData(Message message)
-    {
-        var roomNum = message.GetInt();
-        
-        Debug.Log($"Got room number {roomNum}.");
-        
-        UIManager.Singleton.SetUI((int)UIs.Game);
-        //GameManager.SetRoom("Room testing");
-    }
-
-    [MessageHandler((ushort)ServerToClientId.RoomPlayers)]
-    private static void RecieveRoomPlayers(Message message)
-    {
-        while (message.UnreadLength > 0)
-        {
-            Player player = new Player(message.GetUShort(), message.GetString(), message.GetFloat(), message.GetFloat());
-            GameManager.Singleton.AddPlayer(player);
-        }
     }
 }

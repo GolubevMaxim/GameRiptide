@@ -8,7 +8,8 @@ public enum ClientToServerId : ushort
     EnterGame,
     LoadFinished,
     LeaveGame,
-    Chat
+    Chat,
+    DirectionInput
 }
 
 public enum ServerToClientId : ushort
@@ -17,7 +18,8 @@ public enum ServerToClientId : ushort
     RoomData,
     Chat,
     RoomPlayers,
-    RemovePlayerFromRoom
+    RemovePlayerFromRoom,
+    PlayerPositionChange
 }
 public class NetworkManager : MonoBehaviour
 {
@@ -63,8 +65,9 @@ public class NetworkManager : MonoBehaviour
     private void FixedUpdate()
     {
         Server.Tick();
-
-        foreach (var room in GameManager.Singleton.Rooms) room.SendChat();
+        
+        foreach (var room in Rooms.Rooms.List)
+            room.SendChat();
     }
 
     private void OnApplicationQuit()
@@ -75,48 +78,20 @@ public class NetworkManager : MonoBehaviour
     
     private void OnClientDisconnected(object sender, ClientDisconnectedEventArgs e)
     {
-        GameManager.Singleton.RemoveUser(e.Id);
+        if (Player.Players.Dictionary.TryGetValue(e.Id, out var player))
+            player.Leave();
     }
-
-    [MessageHandler((ushort) ClientToServerId.Logpas)]
-    private static void ReceiveLogPas(ushort fromClientId, Message message)
-    {
-        var user = DataBaseManager.SelectPlayerLogPas(message.GetString(), message.GetString());
-
-        SendAnswerLogPas(user != null, fromClientId, user);
-        
-        if (user == null)
-        {
-            Singleton.Server.DisconnectClient(fromClientId);
-        }
-        else
-        {
-            GameManager.Singleton.Users.Add(fromClientId, user);
-            GameManager.Singleton.UsersInMenu.Add(fromClientId, user);
-        }
-    }
-
-    private static void SendAnswerLogPas(bool userExists, ushort userId, User user)
-    {
-        var message = Message.Create(MessageSendMode.reliable, ServerToClientId.Logpas);
-        
-        message.AddBool(userExists);
-        
-        if (userExists)
-        {
-            message.AddInt(user.id);
-        }
-        
-        Singleton.Server.Send(message, userId);
-    }
-
+    
     [MessageHandler((ushort) ClientToServerId.EnterGame)]
     private static void ReceiveEnterGameRequest(ushort fromClientId, Message message)
     {
-        if (GameManager.Singleton.AddUserToGame(fromClientId))
-        {
-            SendRoomData(fromClientId, 0);
-        }
+        var roomIndex = message.GetUShort();
+        var spawnPosition = message.GetVector2();
+        var nickName = message.GetString();
+        
+        Rooms.Rooms.List[roomIndex].SpawnPlayer(fromClientId, spawnPosition, nickName);
+        
+        SendRoomData(fromClientId, 0);
     }
 
     private static void SendRoomData(ushort userNetworkId, int roomNum)
@@ -131,14 +106,6 @@ public class NetworkManager : MonoBehaviour
     [MessageHandler((ushort) ClientToServerId.LeaveGame)]
     private static void ReceiveLeaveGameRequest(ushort fromClientId, Message message)
     {
-        GameManager.Singleton.RemoveUserFromGame(fromClientId);
-    }
-
-    [MessageHandler((ushort) ClientToServerId.Chat)]
-    private static void ReceiveChatMessage(ushort fromClientId, Message message)
-    {
-        if (!GameManager.Singleton.Users.TryGetValue(fromClientId, out var user)) return;
-        
-        user.GetRoom().AddMessageToChat(fromClientId, message.GetString());
+        Singleton.Server.DisconnectClient(fromClientId);
     }
 }

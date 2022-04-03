@@ -1,4 +1,6 @@
 using JetBrains.Annotations;
+using Player;
+using Rooms;
 using UnityEngine;
 
 public enum UserState
@@ -12,37 +14,24 @@ public class User
 {
     public int id;
     public string nickname;
-    [CanBeNull] public Room room;
-    public UserState state;
+
+    private UserState _state;
     
-    public User(int id, string nickname, Room room = null)
+    public User(int id, string nickname)
     {
         this.id = id;
         this.nickname = nickname;
-        this.room = room;
 
-        state = UserState.Menu;
+        _state = UserState.Menu;
     }
 
-    public Room GetRoom()
+    public void Play()
     {
-        if (state == UserState.Game)
-            return room;
-        
-        Debug.LogWarning($"Trying to get room from player not in game. User id = {id}");
-        return null;
+        _state = UserState.Game;
     }
 
-    public bool RemoveFromGame(ushort userNetworkId)
+    public void Leave()
     {
-        if (room == null)
-            return false;
-        
-        
-        room.RemovePlayer(userNetworkId);
-        
-        state = UserState.Menu;
-        
-        return true;
+        _state = UserState.Menu;
     }
 }

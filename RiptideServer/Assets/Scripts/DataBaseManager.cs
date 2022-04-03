@@ -58,7 +58,7 @@ public class DataBaseManager : MonoBehaviour
             {
                 if (reader.Read())
                 {
-                    user = new User(reader.GetInt32(0), login, GameManager.Singleton.Rooms[0]);
+                    user = new User(reader.GetInt32(0), login);
                 }
             }
         }
