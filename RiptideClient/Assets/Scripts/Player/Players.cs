@@ -4,6 +4,8 @@ namespace Player
 {
     public static class Players
     {
-        public static readonly Dictionary<ushort, Player> Dictionary = new();
+        private static readonly Dictionary<ushort, Player> _dictionary = new();
+        public static Dictionary<ushort, Player> Dictionary => _dictionary;
+                
     }
 }

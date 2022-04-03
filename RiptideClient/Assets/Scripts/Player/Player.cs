@@ -1,9 +1,7 @@
-using Client.PlayerPosition;
 using UnityEngine;
 
 namespace Player
-{
-    [RequireComponent(typeof(PlayerUpdater))]
+{ 
     public class Player : MonoBehaviour
     {
         private ushort _networkID;

@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using Client.PlayerPosition;
+using Player;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Room
@@ -15,11 +18,18 @@ namespace Room
             RoomNetwork.Singleton.SendEnterGameRequest();
         }
         
-        public void AddPlayer(ushort id, string nickname, Vector3 position)
+        public void SpawnPlayer(ushort id, string nickname, Vector3 position)
         {
             var player = Instantiate(_playerTemplate, position, Quaternion.identity);
+
+            if (NetworkManager.Singleton.Client.Id == id)
+                player.AddComponent<LocalPlayerUpdater>();
+            else
+                player.AddComponent<PlayerUpdater>();
+
             player.Init(id, nickname);
-            Player.Players.Dictionary[id] = player;
+            
+            Players.Dictionary[id] = player;
             _players.Add(id, player);
         }
     }

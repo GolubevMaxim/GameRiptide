@@ -81,7 +81,7 @@ namespace Room
                 var playerPosition = new Vector3(message.GetFloat(), message.GetFloat(), 0);
                 
                 Debug.Log(CurrentRoom);
-                CurrentRoom.AddPlayer(playerId, playerName, playerPosition);
+                CurrentRoom.SpawnPlayer(playerId, playerName, playerPosition);
             }
         }
     }
