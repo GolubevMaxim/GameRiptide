@@ -35,15 +35,14 @@ namespace Rooms
         
         public void SpawnPlayer(ushort playerId, Vector2 position, string nickName)
         {
-
             Player.Player player;
 
             player = Instantiate(Player.Players.Dictionary.TryGetValue(playerId, out player) ?
                 Player.Players.Dictionary[playerId] : defaultPlayer, position, Quaternion.identity);
 
             player.Init(playerId, nickName, this);
+            player.transform.parent = transform;
 
-            
             _players[playerId] = player;
             Player.Players.Dictionary[playerId] = player;
             

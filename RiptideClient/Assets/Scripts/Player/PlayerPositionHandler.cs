@@ -1,5 +1,4 @@
-﻿using Client.PlayerPosition;
-using RiptideNetworking;
+﻿using RiptideNetworking;
 using UnityEngine;
 
 namespace Player

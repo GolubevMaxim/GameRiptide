@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-namespace Client.PlayerPosition
+namespace Player
 {
     public class PlayerUpdater : MonoBehaviour
     {
         public void SetPosition(Vector3 position)
         {
-            transform.position = position;
+            transform.localPosition = position;
         }
     }
 }

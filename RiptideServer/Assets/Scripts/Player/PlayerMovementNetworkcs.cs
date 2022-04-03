@@ -27,7 +27,7 @@ namespace Player
             var message = Message.Create(MessageSendMode.unreliable, ServerToClientId.PlayerPositionChange);
             
             message.AddUShort(playerId);
-            message.AddVector3(player.transform.position);
+            message.AddVector3(player.transform.localPosition);
             
             NetworkManager.Singleton.Server.SendToAll(message);
         }

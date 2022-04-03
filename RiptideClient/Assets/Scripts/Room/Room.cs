@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Client.PlayerPosition;
 using Player;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -28,9 +27,11 @@ namespace Room
                 player.AddComponent<PlayerUpdater>();
 
             player.Init(id, nickname);
+
+            player.transform.parent = transform;
             
             Players.Dictionary[id] = player;
             _players.Add(id, player);
         }
     }
-}
+}   
