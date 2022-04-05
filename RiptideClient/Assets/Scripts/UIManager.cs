@@ -1,4 +1,5 @@
 using System;
+using RiptideNetworking;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -81,5 +82,14 @@ public class UIManager : MonoBehaviour
         
         activeUI = menuUIs[num];
         activeUI.SetActive(true);
+    }
+    public void SendLeaveGameRequest()
+    {
+        var message = Message.Create(MessageSendMode.reliable, ClientToServerId.LeaveGame);
+        
+        NetworkManager.Singleton.Client.Send(message);
+        
+        UIManager.Singleton.SetUI((int)UIs.Character);
+        SceneManager.LoadScene("Menu");
     }
 }

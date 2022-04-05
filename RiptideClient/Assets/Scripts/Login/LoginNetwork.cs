@@ -22,7 +22,7 @@ namespace Login
         public static void SendLogPas()
         {
             var message = Message.Create(MessageSendMode.reliable, ClientToServerId.Logpas);
-        
+            
             message.AddString(UIManager.Singleton.Login);
             message.AddString(UIManager.Singleton.Password);
         
