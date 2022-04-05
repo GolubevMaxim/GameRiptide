@@ -24,9 +24,9 @@ namespace Chat
             _chatUserIDs.Remove(userID);
         }
 
-        public void AddMessageToBuffer(int userID, string str)
+        public void AddMessageToBuffer(ushort userID, string str)
         {
-            _chatBuffer.AddInt(userID);
+            _chatBuffer.AddUShort(userID);
             _chatBuffer.AddString(str);
         }
 

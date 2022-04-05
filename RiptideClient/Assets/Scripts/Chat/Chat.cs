@@ -7,7 +7,8 @@ namespace Chat
 {
     public class Chat : MonoBehaviour
     {
-        [Header("Chat Log")] [SerializeField] private GameObject chatLog;
+        [Header("Chat Log")]
+        [SerializeField] private GameObject chatLog;
         [SerializeField] private GameObject chatMessageButtonPrefab;
         [SerializeField] private int maxMessageCount = 10;
         [SerializeField] private TMP_InputField chatField;
