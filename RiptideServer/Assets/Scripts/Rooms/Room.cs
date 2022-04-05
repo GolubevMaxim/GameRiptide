@@ -13,6 +13,7 @@ namespace Rooms
 
         public Dictionary<ushort, Player.Player>  Players => _players;
         private RoomNetwork _roomNetwork;
+
         private void Start()
         {
             _roomNetwork = new RoomNetwork(this);
@@ -21,6 +22,11 @@ namespace Rooms
             _roomChat = new RoomChat();
 
             Rooms.Add(this);
+        }
+
+        private void Update()
+        {
+            _roomNetwork.SendPlayerPositions();
         }
 
         public void AddMessageToChat(ushort playerID, string chatMessage)

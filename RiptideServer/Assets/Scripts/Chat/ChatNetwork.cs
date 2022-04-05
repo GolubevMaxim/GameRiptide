@@ -12,7 +12,7 @@ namespace Chat
             if (!AuthorizationManager.Singleton.Users.TryGetValue(fromClientId, out var user)) return;
         
             var roomIndex = message.GetUShort();
-            Rooms.Rooms.List[roomIndex].AddMessageToChat(fromClientId, message.GetString());
+            Rooms.Rooms.GetRoom(roomIndex).AddMessageToChat(fromClientId, message.GetString());
         }
     }
 }

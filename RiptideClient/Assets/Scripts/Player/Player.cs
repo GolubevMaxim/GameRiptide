@@ -1,4 +1,5 @@
 using UnityEngine;
+using Client.PlayerPosition;
 
 namespace Player
 { 
@@ -6,11 +7,15 @@ namespace Player
     {
         private ushort _networkID;
         private string _nickname;
+        public PlayerUpdater playerUpdater {
+            get; private set;
+        }
 
         public void Init(ushort networkID, string nickname)
         {
             _networkID = networkID;
             _nickname = nickname;
+            playerUpdater = GetComponent<PlayerUpdater>();
         }
     }
 }

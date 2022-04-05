@@ -33,6 +33,7 @@ namespace Chat
         {
             var message = Message.Create(MessageSendMode.reliable, ClientToServerId.Chat);
 
+            message.AddUShort(0);
             message.AddString(chatMessage);
 
             NetworkManager.Singleton.Client.Send(message);

@@ -3,8 +3,9 @@ using UnityEngine;
 
 namespace Player
 {
-    public class LocalPlayerUpdater : PlayerUpdater
+    public class LocalPlayerController : MonoBehaviour
     {
+        Vector2 previousDirection = Vector2.zero;
         private void Update()
         {
             if (NetworkManager.Singleton.Client == null) return;
@@ -24,7 +25,12 @@ namespace Player
         private void Move()
         {
             var movementDirection = GetDirectionFromKeyBoard();
-            PlayerPositionHandler.SendDirection(movementDirection);
+            if(previousDirection != movementDirection)
+            {
+                previousDirection = movementDirection;
+                PlayerPositionHandler.SendDirection(movementDirection);
+            }
+            
         }
     }
 }

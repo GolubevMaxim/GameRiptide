@@ -26,7 +26,7 @@ namespace Player
             Players.Dictionary.TryGetValue(playerId, out var player);
             if (player == null) return;
 
-            player.GetComponent<PlayerUpdater>().SetPosition(position);
+            player.playerUpdater.SetPosition(position);
         }
     }
 }

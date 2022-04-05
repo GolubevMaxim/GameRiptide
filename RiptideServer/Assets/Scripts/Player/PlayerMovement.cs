@@ -5,23 +5,15 @@ namespace Player
     public class PlayerMovement : MonoBehaviour
     {
         [SerializeField] private float speed;
-        
-        private bool _inDash;
-        private float _previousTime;
+        private Rigidbody2D _rgbd;
+
+        private void Awake()
+        {
+            _rgbd = GetComponent<Rigidbody2D>();
+        }
         public void Move(Vector2 direction)
         {
-            if (_inDash)
-            {
-                _previousTime = Time.time;
-                return;
-            }
-
-            var previousTime = _previousTime;
-
-            var deltaTime = Time.time - previousTime;
-            transform.Translate(direction.normalized * deltaTime * speed);
-
-            _previousTime = Time.time;
+            _rgbd.velocity = direction * speed;
         }
     }
 }

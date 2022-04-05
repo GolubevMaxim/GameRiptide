@@ -11,5 +11,11 @@ namespace Rooms
         {
             List.Add(room);
         }
+
+        public static Room GetRoom(ushort id)
+        {
+            if (id >= 0 && id < List.Count) return List[id];
+            return null;
+        }
     }
 }

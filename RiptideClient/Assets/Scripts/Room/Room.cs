@@ -22,10 +22,10 @@ namespace Room
         {
             var player = Instantiate(_playerTemplate, position, Quaternion.identity);
 
+            player.AddComponent<PlayerUpdater>();
+
             if (NetworkManager.Singleton.Client.Id == id)
-                player.AddComponent<LocalPlayerUpdater>();
-            else
-                player.AddComponent<PlayerUpdater>();
+                player.AddComponent<LocalPlayerController>();
 
             player.Init(id, nickname);
             
