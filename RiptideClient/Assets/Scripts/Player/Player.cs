@@ -1,5 +1,4 @@
 using UnityEngine;
-using Client.PlayerPosition;
 
 namespace Player
 { 

@@ -16,7 +16,7 @@ namespace Rooms
         {
             message.AddUShort(player.NetworkId);
             message.AddString(player.NickName);
-            message.AddVector2(player.transform.position);
+            message.AddVector2(player.transform.localPosition);
         }
         
         public void SendNewPlayer(Player.Player player)
@@ -52,7 +52,7 @@ namespace Rooms
             foreach (var player in _room.Players.Values)
             {
                 message.AddUShort(player.NetworkId);
-                message.AddVector2(player.transform.position);
+                message.AddVector2(player.transform.localPosition);
             }
             
             foreach(var playerNetworkID in _room.Players.Keys)

@@ -1,11 +1,10 @@
-﻿using Client.PlayerPosition;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Player
 {
     public class LocalPlayerController : MonoBehaviour
     {
-        Vector2 previousDirection = Vector2.zero;
+        private Vector2 _previousDirection = Vector2.zero;
         private void Update()
         {
             if (NetworkManager.Singleton.Client == null) return;
@@ -25,12 +24,12 @@ namespace Player
         private void Move()
         {
             var movementDirection = GetDirectionFromKeyBoard();
-            if (previousDirection != movementDirection)
+            
+            if (_previousDirection != movementDirection)
             {
-                previousDirection = movementDirection;
+                _previousDirection = movementDirection;
                 PlayerPositionHandler.SendDirection(movementDirection);
             }
-            
         }
     }
 }

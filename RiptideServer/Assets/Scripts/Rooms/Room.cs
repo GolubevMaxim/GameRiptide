@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Chat;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Rooms
@@ -45,11 +46,10 @@ namespace Rooms
             Player.Player player;
 
             player = Instantiate(Player.Players.Dictionary.TryGetValue(playerId, out player) ?
-                Player.Players.Dictionary[playerId] : defaultPlayer, position, Quaternion.identity);
+                Player.Players.Dictionary[playerId] : defaultPlayer, position, Quaternion.identity, transform);
 
             player.Init(playerId, nickName, this);
 
-            
             _players[playerId] = player;
             Player.Players.Dictionary[playerId] = player;
             

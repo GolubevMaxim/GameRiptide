@@ -1,5 +1,4 @@
-﻿using System;
-using RiptideNetworking;
+﻿using RiptideNetworking;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

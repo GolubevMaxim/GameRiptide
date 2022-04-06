@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Client.PlayerPosition;
 using Player;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -20,7 +19,7 @@ namespace Room
         
         public void SpawnPlayer(ushort id, string nickname, Vector3 position)
         {
-            var player = Instantiate(_playerTemplate, position, Quaternion.identity);
+            var player = Instantiate(_playerTemplate, position, Quaternion.identity, transform);
 
             player.AddComponent<PlayerUpdater>();
 
@@ -28,7 +27,7 @@ namespace Room
                 player.AddComponent<LocalPlayerController>();
 
             player.Init(id, nickname);
-            
+
             Players.Dictionary[id] = player;
             _players.Add(id, player);
         }
