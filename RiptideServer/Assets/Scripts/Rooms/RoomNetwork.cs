@@ -48,11 +48,13 @@ namespace Rooms
         public void SendPlayerPositions()
         {
             var message = Message.Create(MessageSendMode.unreliable, ServerToClientId.PlayerPositionChange);
+            
             foreach (var player in _room.Players.Values)
             {
                 message.AddUShort(player.NetworkId);
                 message.AddVector2(player.transform.position);
             }
+            
             foreach(var playerNetworkID in _room.Players.Keys)
             {
                 NetworkManager.Singleton.Server.Send(message, playerNetworkID, false);

@@ -25,7 +25,7 @@ namespace Player
         private void Move()
         {
             var movementDirection = GetDirectionFromKeyBoard();
-            if(previousDirection != movementDirection)
+            if (previousDirection != movementDirection)
             {
                 previousDirection = movementDirection;
                 PlayerPositionHandler.SendDirection(movementDirection);

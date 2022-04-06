@@ -21,7 +21,7 @@ public enum ServerToClientId : ushort
     Chat,
     RoomPlayers,
     RemovePlayerFromRoom,
-    UpdatePosition,
+    PlayerPositionChange,
 }
 
 public class NetworkManager : MonoBehaviour

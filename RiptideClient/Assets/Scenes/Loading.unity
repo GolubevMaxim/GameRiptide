@@ -1421,8 +1421,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 633845571}
-        m_TargetAssemblyTypeName: NetworkManager, Assembly-CSharp
+      - m_Target: {fileID: 633845572}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: SendLeaveGameRequest
         m_Mode: 1
         m_Arguments:
