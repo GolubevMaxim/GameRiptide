@@ -66,7 +66,7 @@ public class NetworkManager : MonoBehaviour
     {
         Server.Tick();
         
-        foreach (var room in Rooms.Rooms.List)
+        foreach (var room in Rooms.Rooms.Dictionary.Values)
             room.SendChat();
     }
 
@@ -89,7 +89,7 @@ public class NetworkManager : MonoBehaviour
         var spawnPosition = message.GetVector2();
         var nickName = message.GetString();
         
-        Rooms.Rooms.List[roomIndex].SpawnPlayer(fromClientId, spawnPosition, nickName);
+        Rooms.Rooms.Dictionary[roomIndex].SpawnPlayer(fromClientId, spawnPosition, nickName);
         
         SendRoomData(fromClientId, 0);
     }

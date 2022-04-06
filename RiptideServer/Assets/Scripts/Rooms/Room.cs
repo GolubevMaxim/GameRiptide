@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using Chat;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Rooms
 {
     public class Room : MonoBehaviour
     {
+        [SerializeField] private ushort roomId;
         [SerializeField] private Player.Player defaultPlayer;
         
         private Dictionary<ushort, Player.Player> _players;
@@ -22,7 +22,7 @@ namespace Rooms
             _players = new Dictionary<ushort, Player.Player>();
             _roomChat = new RoomChat();
 
-            Rooms.Add(this);
+            Rooms.Add(roomId, this);
         }
 
         private void Update()
@@ -39,13 +39,21 @@ namespace Rooms
         {
             _roomChat.SendMessages();
         }
+
+        public void AddPlayer(Player.Player player, Vector2 position)
+        {
+            _players[player.NetworkId] = player;
+            
+            var playerTransform = player.transform;
+            
+            playerTransform.parent = transform;
+            playerTransform.position = position;
+        }
         
         public void SpawnPlayer(ushort playerId, Vector2 position, string nickName)
         {
 
-            Player.Player player;
-
-            player = Instantiate(Player.Players.Dictionary.TryGetValue(playerId, out player) ?
+            var player = Instantiate(Player.Players.Dictionary.ContainsKey(playerId) ?
                 Player.Players.Dictionary[playerId] : defaultPlayer, position, Quaternion.identity, transform);
 
             player.Init(playerId, nickName, this);

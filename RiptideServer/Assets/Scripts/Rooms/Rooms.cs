@@ -5,17 +5,18 @@ namespace Rooms
 {
     public class Rooms : MonoBehaviour
     {
-        public static List<Room> List = new();
+        private static readonly Dictionary<ushort, Room> _dictionary = new();
 
-        public static void Add(Room room)
-        {
-            List.Add(room);
+        public static Dictionary<ushort, Room> Dictionary => _dictionary;
+        
+        public static void Add(ushort roomId, Room room)
+        { 
+            _dictionary[roomId] = room;
         }
 
         public static Room GetRoom(ushort id)
         {
-            if (id >= 0 && id < List.Count) return List[id];
-            return null;
+            return id < _dictionary.Count ? _dictionary[id] : null;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Player
             var roomIndex = message.GetUShort();
             var moveDirection = message.GetVector2();
             
-            Rooms.Rooms.List[roomIndex].Players.TryGetValue(playerId, out var player);
+            Rooms.Rooms.Dictionary[roomIndex].Players.TryGetValue(playerId, out var player);
             
             if (player == null) return;
             
@@ -21,7 +21,7 @@ namespace Player
 
         private static void SendPosition(ushort roomIndex, ushort playerId)
         {
-            Rooms.Rooms.List[roomIndex].Players.TryGetValue(playerId, out var player);
+            Rooms.Rooms.Dictionary[roomIndex].Players.TryGetValue(playerId, out var player);
             if (player == null) return;
 
             var message = Message.Create(MessageSendMode.unreliable, ServerToClientId.PlayerPositionChange);
