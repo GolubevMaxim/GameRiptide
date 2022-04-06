@@ -7,7 +7,6 @@ public enum ClientToServerId : ushort
 {
     Logpas = 1,
     EnterGame,
-    LoadFinished,
     LeaveGame,
     Chat,
     DirectionInput,
@@ -21,6 +20,7 @@ public enum ServerToClientId : ushort
     RoomPlayers,
     RemovePlayerFromRoom,
     PlayerPositionChange,
+    LoadRoom
 }
 
 public class NetworkManager : MonoBehaviour

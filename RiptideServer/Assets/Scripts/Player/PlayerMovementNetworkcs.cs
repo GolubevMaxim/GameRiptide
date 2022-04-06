@@ -8,15 +8,13 @@ namespace Player
         [MessageHandler((ushort) ClientToServerId.DirectionInput)]
         private static void GetPlayerMovementMessage(ushort playerId, Message message)
         {
-            var roomIndex = message.GetUShort();
             var moveDirection = message.GetVector2();
-            
-            Rooms.Rooms.Dictionary[roomIndex].Players.TryGetValue(playerId, out var player);
-            
-            if (player == null) return;
-            
-            player.GetComponent<PlayerMovement>().Move(moveDirection);
-            SendPosition(roomIndex, playerId);
+
+            if (Players.Dictionary.TryGetValue(playerId, out var player))
+            {
+                player.GetComponent<PlayerMovement>().Move(moveDirection);
+                SendPosition(player.CurrentRoom.RoomId, playerId);
+            }
         }
 
         private static void SendPosition(ushort roomIndex, ushort playerId)

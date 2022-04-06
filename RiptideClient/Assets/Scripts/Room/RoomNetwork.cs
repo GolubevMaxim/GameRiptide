@@ -41,13 +41,6 @@ namespace Room
             NetworkManager.Singleton.Client.Send(message);
         }
 
-        public void SendSceneLoadFinished()
-        {
-            var message = Message.Create(MessageSendMode.reliable, ClientToServerId.LoadFinished);
-            
-            NetworkManager.Singleton.Client.Send(message);
-        }
-
         public void SendLeaveGameRequest()
         {
             var message = Message.Create(MessageSendMode.reliable, ClientToServerId.LeaveGame);
@@ -82,6 +75,23 @@ namespace Room
                 Debug.Log(CurrentRoom);
                 CurrentRoom.SpawnPlayer(playerId, playerName, playerPosition);
             }
+        }
+        
+        [MessageHandler((ushort)ServerToClientId.RemovePlayerFromRoom)]
+        private static void RemovePlayerFromRoom(Message message)
+        {
+            var playerId = message.GetUShort();
+            
+            CurrentRoom.RemovePlayer(playerId);
+        }
+
+        [MessageHandler((ushort) ServerToClientId.LoadRoom)]
+        private static void LoadRoom(Message message)
+        {
+            var roomId = message.GetUShort();
+
+            if (SceneManager.GetActiveScene().name != $"room{roomId}")
+                SceneManager.LoadScene($"room{roomId}");
         }
     }
 }

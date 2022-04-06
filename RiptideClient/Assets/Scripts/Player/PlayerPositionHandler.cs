@@ -9,7 +9,6 @@ namespace Player
         {
             var message = Message.Create(MessageSendMode.unreliable, ClientToServerId.DirectionInput);
 
-            message.AddUShort(0);
             message.AddVector2(direction);
             
             NetworkManager.Singleton.Client.Send(message);

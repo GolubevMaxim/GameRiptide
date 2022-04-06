@@ -60,5 +60,14 @@ namespace Rooms
                 NetworkManager.Singleton.Server.Send(message, playerNetworkID, false);
             }
         }
+
+        public void LoadRoomRequest(ushort playerId)
+        {
+            var message = Message.Create(MessageSendMode.reliable, ServerToClientId.LoadRoom);
+            
+            message.AddUShort(_room.RoomId);
+            
+            NetworkManager.Singleton.Server.Send(message, playerId);
+        }
     }
 }

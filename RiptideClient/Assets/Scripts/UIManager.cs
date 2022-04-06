@@ -70,7 +70,7 @@ public class UIManager : MonoBehaviour
 
     public void EnterGameClicked()
     {
-        SceneManager.LoadScene("Room testing");
+        SceneManager.LoadScene("Room0");
     }
     
     public void SetUI(int num)

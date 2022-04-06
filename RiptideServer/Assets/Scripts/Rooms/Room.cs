@@ -6,15 +6,16 @@ namespace Rooms
 {
     public class Room : MonoBehaviour
     {
-        [SerializeField] private ushort roomId;
-        [SerializeField] private Player.Player defaultPlayer;
+        [SerializeField] private ushort _roomId;
+        [SerializeField] private Player.Player _defaultPlayer;
         
         private Dictionary<ushort, Player.Player> _players;
         private RoomChat _roomChat;
-
-        public Dictionary<ushort, Player.Player>  Players => _players;
+        
         private RoomNetwork _roomNetwork;
 
+        public ushort RoomId => _roomId;
+        public Dictionary<ushort, Player.Player>  Players => _players;
         private void Start()
         {
             _roomNetwork = new RoomNetwork(this);
@@ -22,7 +23,7 @@ namespace Rooms
             _players = new Dictionary<ushort, Player.Player>();
             _roomChat = new RoomChat();
 
-            Rooms.Add(roomId, this);
+            Rooms.Add(_roomId, this);
         }
 
         private void Update()
@@ -42,6 +43,8 @@ namespace Rooms
 
         public void AddPlayer(Player.Player player, Vector2 position)
         {
+            _roomNetwork.LoadRoomRequest(player.NetworkId);
+            
             _players[player.NetworkId] = player;
             
             var playerTransform = player.transform;
@@ -52,11 +55,12 @@ namespace Rooms
         
         public void SpawnPlayer(ushort playerId, Vector2 position, string nickName)
         {
-
             var player = Instantiate(Player.Players.Dictionary.ContainsKey(playerId) ?
-                Player.Players.Dictionary[playerId] : defaultPlayer, position, Quaternion.identity, transform);
+                Player.Players.Dictionary[playerId] : _defaultPlayer, position, Quaternion.identity, transform);
 
             player.Init(playerId, nickName, this);
+            
+            _roomNetwork.LoadRoomRequest(_roomId);
 
             _players[playerId] = player;
             Player.Players.Dictionary[playerId] = player;
@@ -81,3 +85,4 @@ namespace Rooms
         }
     }
 }
+    

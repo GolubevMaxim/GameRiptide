@@ -7,12 +7,14 @@ namespace Room
 {
     public class Room : MonoBehaviour
     {
+        [SerializeField] private ushort _roomId;
         [SerializeField] private Player.Player _playerTemplate;
         private Dictionary<ushort, Player.Player> _players = new();
+
+        public ushort RoomId => _roomId;
+        
         private void Start()
         {
-            Debug.Log("Scene loaded!");
-            
             RoomNetwork.CurrentRoom = this;
             RoomNetwork.Singleton.SendEnterGameRequest();
         }
@@ -29,7 +31,14 @@ namespace Room
             player.Init(id, nickname);
 
             Players.Dictionary[id] = player;
-            _players.Add(id, player);
+            _players[id] = player;
         }
+
+        public void RemovePlayer(ushort id)
+        {
+            Destroy(_players[id].gameObject);
+            Players.Dictionary.Remove(id);
+            _players.Remove(id);
+        } 
     }
 }
