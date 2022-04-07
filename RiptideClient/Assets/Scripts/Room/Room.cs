@@ -27,7 +27,11 @@ namespace Room
             player.AddComponent<PlayerUpdater>();
 
             if (NetworkManager.Singleton.Client.Id == id)
+            {
+                if (Camera.main != null) 
+                    Camera.main.GetComponent<CameraController>().Target = player.transform;
                 player.AddComponent<LocalPlayerController>();
+            }
 
             player.Init(id, nickname);
 
