@@ -17,6 +17,7 @@ namespace Room
         {
             RoomNetwork.CurrentRoom = this;
             RoomNetwork.Singleton.SendEnterGameRequest();
+           // RoomNetwork.Singleton.GetAllPlayersRequest();
         }
         
         public void SpawnPlayer(ushort id, string nickname, Vector3 position)

@@ -1,3 +1,4 @@
+using Player;
 using RiptideNetworking;
 using RiptideNetworking.Utils;
 using UnityEngine;
@@ -8,7 +9,8 @@ public enum ClientToServerId : ushort
     EnterGame,
     LeaveGame,
     Chat,
-    DirectionInput
+    DirectionInput,
+    AllPlayersPosition
 }
 
 public enum ServerToClientId : ushort
@@ -88,8 +90,11 @@ public class NetworkManager : MonoBehaviour
         var roomIndex = message.GetUShort();
         var spawnPosition = message.GetVector2();
         var nickName = message.GetString();
-        
-        Rooms.Rooms.Dictionary[roomIndex].SpawnPlayer(fromClientId, spawnPosition, nickName);
+
+        if (Rooms.Rooms.Dictionary[roomIndex].Players.ContainsKey(fromClientId))
+            Rooms.Rooms.Dictionary[roomIndex].SendAllPlayers(fromClientId);
+        else
+            Rooms.Rooms.Dictionary[roomIndex].SpawnPlayer(fromClientId, spawnPosition, nickName);
         
         SendRoomData(fromClientId, 0);
     }

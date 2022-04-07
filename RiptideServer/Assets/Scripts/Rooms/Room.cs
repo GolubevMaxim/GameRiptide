@@ -43,14 +43,14 @@ namespace Rooms
 
         public void AddPlayer(Player.Player player, Vector2 position)
         {
-            _roomNetwork.LoadRoomRequest(player.NetworkId);
-            
             _players[player.NetworkId] = player;
             
             var playerTransform = player.transform;
             
             playerTransform.parent = transform;
             playerTransform.position = position;
+            
+            _roomNetwork.LoadRoomRequest(player.NetworkId);
         }
         
         public void SpawnPlayer(ushort playerId, Vector2 position, string nickName)
@@ -82,6 +82,11 @@ namespace Rooms
             }
         
             return false;
+        }
+
+        public void SendAllPlayers(ushort playerId)
+        {
+            _roomNetwork.SendAllPlayers(playerId);
         }
     }
 }

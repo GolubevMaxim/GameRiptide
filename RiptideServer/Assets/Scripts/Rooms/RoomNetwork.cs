@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using Player;
 using RiptideNetworking;
+using Unity.VisualScripting.Dependencies.NCalc;
 
 namespace Rooms
 {
@@ -28,12 +30,17 @@ namespace Rooms
             foreach (var playerNetworkID in _room.Players.Keys.Where(playerNetworkID => playerNetworkID != player.NetworkId))
                 NetworkManager.Singleton.Server.Send(message, playerNetworkID);
             
-            message = Message.Create(MessageSendMode.reliable, ServerToClientId.RoomPlayers);
+            SendAllPlayers(player.NetworkId);
+        }
+        
+        public void SendAllPlayers(ushort playerId)
+        {
+            var message = Message.Create(MessageSendMode.reliable, ServerToClientId.RoomPlayers);
             
             foreach (var otherPlayer in _room.Players.Values)
                 AddPlayerDataToMessage(message, otherPlayer);
 
-            NetworkManager.Singleton.Server.Send(message, player.NetworkId);
+            NetworkManager.Singleton.Server.Send(message, playerId);
         }
 
         public void SendRemovePlayer(ushort removedPlayerNetworkID)
@@ -68,6 +75,15 @@ namespace Rooms
             message.AddUShort(_room.RoomId);
             
             NetworkManager.Singleton.Server.Send(message, playerId);
+        }
+
+        [MessageHandler((ushort) ClientToServerId.AllPlayersPosition)]
+        public static void GetAllPlayerPositionRequest(ushort fromClientId, Message message)
+        {
+            if (Players.Dictionary.TryGetValue(fromClientId, out var player))
+            {
+                player.CurrentRoom.SendAllPlayers(fromClientId);
+            }
         }
     }
 }

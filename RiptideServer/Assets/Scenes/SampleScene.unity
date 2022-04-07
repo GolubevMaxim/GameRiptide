@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5793236174247303953, guid: e06ee33cd84a3c041977dce13c858ded, type: 3}
+      propertyPath: _defaultPlayer
+      value: 
+      objectReference: {fileID: 2725884823073926956, guid: 055ecda485d713342a378d1276130d81, type: 3}
     - target: {fileID: 278177721962594004, guid: e06ee33cd84a3c041977dce13c858ded, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -410,6 +414,14 @@ PrefabInstance:
       propertyPath: roomId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2265741639421333555, guid: 69f77a70280aeac45a65df1c402e3f82, type: 3}
+      propertyPath: _roomId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2265741639421333555, guid: 69f77a70280aeac45a65df1c402e3f82, type: 3}
+      propertyPath: _defaultPlayer
+      value: 
+      objectReference: {fileID: 2725884823073926956, guid: 055ecda485d713342a378d1276130d81, type: 3}
     - target: {fileID: 4362536559892089873, guid: 69f77a70280aeac45a65df1c402e3f82, type: 3}
       propertyPath: m_Name
       value: Room1

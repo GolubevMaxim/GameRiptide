@@ -10,6 +10,7 @@ public enum ClientToServerId : ushort
     LeaveGame,
     Chat,
     DirectionInput,
+    AllPlayersPosition
 }
 
 public enum ServerToClientId : ushort

@@ -34,7 +34,7 @@ namespace Room
         {
             var message = Message.Create(MessageSendMode.reliable, ClientToServerId.EnterGame);
         
-            message.AddUShort(0);
+            message.AddUShort(CurrentRoom.RoomId);
             message.AddVector2(new Vector2(0, 0));
             message.AddString("playerName");
             
@@ -72,7 +72,6 @@ namespace Room
                 var playerName = message.GetString();
                 var playerPosition = new Vector3(message.GetFloat(), message.GetFloat(), 0);
                 
-                Debug.Log(CurrentRoom);
                 CurrentRoom.SpawnPlayer(playerId, playerName, playerPosition);
             }
         }
@@ -92,6 +91,13 @@ namespace Room
 
             if (SceneManager.GetActiveScene().name != $"room{roomId}")
                 SceneManager.LoadScene($"room{roomId}");
+        }
+
+        public void GetAllPlayersRequest()
+        {
+            var message = Message.Create(MessageSendMode.reliable, ClientToServerId.AllPlayersPosition);
+            
+            NetworkManager.Singleton.Client.Send(message);
         }
     }
 }
