@@ -4,22 +4,18 @@ namespace Player
 {
     public class PlayerUpdater : MonoBehaviour
     {
-        private Vector3 _position = Vector3.zero;
-        [SerializeField] private float interpolationCoef = 8f;
-        [SerializeField] private GameObject realPosition = null;
-        public void SetPosition(Vector3 position)
+        private Vector3 _targetPosition = Vector3.zero;
+        [SerializeField] private float interpolationCoefficient = 8f;
+        public void SetPosition(Vector2 position)
         {
-            _position = position;
-            if(realPosition != null)
-            {
-                realPosition.transform.position = _position;
-            }
+            _targetPosition = position;
         }
 
         private void Update()
         {
-            var velocity = _position - transform.position;
-            transform.position += velocity * Time.deltaTime * interpolationCoef;
+            var direction = _targetPosition - transform.position;
+            
+            transform.position += direction * Time.deltaTime * interpolationCoefficient;
         }
     }
 }

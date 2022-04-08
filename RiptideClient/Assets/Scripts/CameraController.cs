@@ -1,23 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform Target;
+    public Transform target;
     [SerializeField] private float velocityMultiplier = 2f;
-    private Vector3 velocity;
+    private Vector3 _velocity;
 
-    void Update()
+    private Vector3 TargetPosition => target.position;
+    private Vector3 CameraPosition => transform.position;
+
+    private void Update()
     {
-        if (Target == null) return;
+        if (target == null) return;
 
-        velocity = new Vector3(Target.position.x - transform.position.x, Target.position.y - transform.position.y, 0);
-        transform.position += velocity * Time.deltaTime * velocityMultiplier;
-        
-        /*var pos = Target.position;
-        pos.z = -10;
-        
-        transform.position = pos;*/
+        _velocity = new Vector3(TargetPosition.x - CameraPosition.x, TargetPosition.y - CameraPosition.y, 0);
+        transform.position += _velocity * (Time.deltaTime * velocityMultiplier);
     }
 }

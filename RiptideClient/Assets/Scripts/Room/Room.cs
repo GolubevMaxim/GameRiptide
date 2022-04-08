@@ -9,7 +9,7 @@ namespace Room
     {
         [SerializeField] private ushort _roomId;
         [SerializeField] private Player.Player _playerTemplate;
-        private Dictionary<ushort, Player.Player> _players = new();
+        private readonly Dictionary<ushort, Player.Player> _players = new();
 
         public ushort RoomId => _roomId;
         
@@ -17,7 +17,6 @@ namespace Room
         {
             RoomNetwork.CurrentRoom = this;
             RoomNetwork.Singleton.SendEnterGameRequest();
-           // RoomNetwork.Singleton.GetAllPlayersRequest();
         }
         
         public void SpawnPlayer(ushort id, string nickname, Vector3 position)
@@ -29,7 +28,7 @@ namespace Room
             if (NetworkManager.Singleton.Client.Id == id)
             {
                 if (Camera.main != null) 
-                    Camera.main.GetComponent<CameraController>().Target = player.transform;
+                    Camera.main.GetComponent<CameraController>().target = player.transform;
                 player.AddComponent<LocalPlayerController>();
             }
 
