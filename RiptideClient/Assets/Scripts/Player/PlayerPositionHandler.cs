@@ -18,13 +18,17 @@ namespace Player
         [MessageHandler((ushort) ServerToClientId.PlayerPositionChange)]
         private static void GetNewPositionMessage(Message message)
         {
-            var playerId = message.GetUShort();
-            var position = message.GetVector2();
+            while(message.UnreadLength > 0)
+            {
+                var playerId = message.GetUShort();
+                var position = message.GetVector2();
 
-            Players.Dictionary.TryGetValue(playerId, out var player);
-            if (player == null) return;
+                Players.Dictionary.TryGetValue(playerId, out var player);
+                if (player == null) return;
 
-            player.playerUpdater.SetPosition(position);
+                player.playerUpdater.SetPosition(position);
+            }
+            
         }
     }
 }

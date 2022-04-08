@@ -12,6 +12,7 @@ namespace Player
 
             if (Players.Dictionary.TryGetValue(playerId, out var player))
             {
+                if (moveDirection.magnitude > 1) moveDirection = moveDirection.normalized;
                 player.GetComponent<PlayerMovement>().Move(moveDirection);
                 SendPosition(player.CurrentRoom.RoomId, playerId);
             }
