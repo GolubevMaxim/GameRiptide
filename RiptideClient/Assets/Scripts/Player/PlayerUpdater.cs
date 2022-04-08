@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Player
 {
@@ -15,7 +16,20 @@ namespace Player
         {
             var direction = _targetPosition - transform.position;
             
+            Flip(direction);
+
             transform.position += direction * Time.deltaTime * interpolationCoefficient;
+        }
+
+        private void Flip(Vector2 moveDirection)
+        {
+            transform.rotation = Quaternion.Euler
+            (
+                new Vector3
+                (
+                    0, Mathf.Abs(Vector2.SignedAngle(moveDirection, Vector2.right)) < 90 ? 0 : 180, 0
+                )
+            );
         }
     }
 }

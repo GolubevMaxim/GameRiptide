@@ -23,8 +23,6 @@ namespace Room
         {
             var player = Instantiate(_playerTemplate, position, Quaternion.identity, transform);
 
-            player.AddComponent<PlayerUpdater>();
-
             if (NetworkManager.Singleton.Client.Id == id)
             {
                 if (Camera.main != null) 
