@@ -4,9 +4,9 @@ namespace Player
 {
     public class LocalPlayerController : MonoBehaviour
     {
-        private Vector2 _previousDirection;
+        private Vector2? _previousDirection;
         private void Update()
-        {
+        {   
             if (NetworkManager.Singleton.Client == null) return;
 
             Move();
