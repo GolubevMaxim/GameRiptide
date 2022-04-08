@@ -111,6 +111,15 @@ public class NetworkManager : MonoBehaviour
     [MessageHandler((ushort) ClientToServerId.LeaveGame)]
     private static void ReceiveLeaveGameRequest(ushort fromClientId, Message message)
     {
-        Singleton.Server.DisconnectClient(fromClientId);
+        Debug.Log("Receiving leave message");
+        
+        if (Players.Dictionary.TryGetValue(fromClientId, out var player))
+        {
+            player.CurrentRoom.TryRemovePlayer(fromClientId);
+            Players.Remove(fromClientId);
+            Destroy(player.gameObject);
+            
+            Singleton.Server.DisconnectClient(fromClientId);
+        }
     }
 }

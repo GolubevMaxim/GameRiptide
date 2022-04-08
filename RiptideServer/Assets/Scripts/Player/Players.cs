@@ -12,5 +12,10 @@ namespace Player
         {
             _dictionary.Add(player.NetworkId, player);
         }
+        
+        public static void Remove(ushort playerId)
+        {
+            _dictionary.Remove(playerId);
+        }
     }
 }

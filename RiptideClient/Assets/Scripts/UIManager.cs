@@ -85,6 +85,7 @@ public class UIManager : MonoBehaviour
     }
     public void SendLeaveGameRequest()
     {
+        Debug.Log("Creating leave message");
         var message = Message.Create(MessageSendMode.reliable, ClientToServerId.LeaveGame);
         
         NetworkManager.Singleton.Client.Send(message);
