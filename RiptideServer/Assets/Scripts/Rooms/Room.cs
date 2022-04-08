@@ -46,6 +46,7 @@ namespace Rooms
             Debug.Log($"New player added to {this.name}");
             _players[player.NetworkId] = player;
             player.ChangeRoom(this);
+            
             _roomChat.AddUser(player.NetworkId);
 
             var playerTransform = player.transform;
@@ -54,6 +55,7 @@ namespace Rooms
             playerTransform.position = position;
             
             _roomNetwork.LoadRoomRequest(player.NetworkId);
+            _roomNetwork.SendNewPlayer(player);
         }
         
         public void SpawnPlayer(ushort playerId, Vector2 position, string nickName)
