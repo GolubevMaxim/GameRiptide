@@ -24,10 +24,20 @@ namespace Player
             _currentRoom = room;
         }
 
+        public Room GetRoom()
+        {
+            return _currentRoom;
+        }
+
+        public void ChangeRoom(Room newRoom)
+        {
+            _currentRoom = newRoom;
+        }
+
         public void Leave()
         {
             Players.Dictionary.Remove(_networkID);
-            _currentRoom.Players.Remove(_networkID);
+            _currentRoom.TryRemovePlayer(_networkID);
             
             Destroy(this);
         }

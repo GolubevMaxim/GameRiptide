@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace Chat
 {
@@ -25,6 +26,7 @@ namespace Chat
         {
             if (chatField.text.Length > 0) ChatNetwork.SendChatMessage(chatField.text);
             chatField.text = "";
+            EventSystem.current.SetSelectedGameObject(null);
         }
 
         public void ChatLogAdd(int playerID, string str)

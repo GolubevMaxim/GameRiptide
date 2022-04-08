@@ -41,9 +41,9 @@ namespace Room
 
         public void RemovePlayer(ushort id)
         {
-            Destroy(_players[id].gameObject);
             Players.Dictionary.Remove(id);
             _players.Remove(id);
+            Destroy(_players[id].gameObject);
         } 
     }
 }

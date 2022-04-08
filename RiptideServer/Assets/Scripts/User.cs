@@ -30,7 +30,7 @@ public class User
         _state = UserState.Game;
     }
 
-    public void Leave()
+    public void BackToMenu()
     {
         _state = UserState.Menu;
     }

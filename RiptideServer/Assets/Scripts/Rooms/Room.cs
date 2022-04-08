@@ -43,8 +43,11 @@ namespace Rooms
 
         public void AddPlayer(Player.Player player, Vector2 position)
         {
+            Debug.Log($"New player added to {this.name}");
             _players[player.NetworkId] = player;
-            
+            player.ChangeRoom(this);
+            _roomChat.AddUser(player.NetworkId);
+
             var playerTransform = player.transform;
             
             playerTransform.parent = transform;
@@ -55,6 +58,7 @@ namespace Rooms
         
         public void SpawnPlayer(ushort playerId, Vector2 position, string nickName)
         {
+            Debug.Log($"New player spawned in {this.name}");
             var player = Instantiate(Player.Players.Dictionary.ContainsKey(playerId) ?
                 Player.Players.Dictionary[playerId] : _defaultPlayer, position, Quaternion.identity, transform);
 
@@ -74,6 +78,7 @@ namespace Rooms
         {
             if (_players.Remove(networkID))
             {
+                Debug.Log($"Removing player from {this.name}");
                 _roomChat.RemoveUser(networkID);
                 
                 _roomNetwork.SendRemovePlayer(networkID);
