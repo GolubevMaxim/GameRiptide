@@ -16,6 +16,7 @@ namespace Chat
 
         private readonly Queue<GameObject> _chatMessageButtons = new();
 
+        public bool IsFocused => chatField.isFocused;
 
         private void Start()
         {

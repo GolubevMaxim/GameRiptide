@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Chat;
+using UnityEngine;
 
 namespace Player
 {
@@ -8,7 +9,7 @@ namespace Player
         private void Update()
         {   
             if (NetworkManager.Singleton.Client == null) return;
-
+            
             Move();
         }
         private Vector2 GetDirectionFromKeyBoard()
@@ -23,8 +24,8 @@ namespace Player
         
         private void Move()
         {
-            var movementDirection = GetDirectionFromKeyBoard();
-            
+            var movementDirection = (ChatNetwork.CurrentChat.IsFocused) ? Vector2.zero : GetDirectionFromKeyBoard();
+
             if (_previousDirection != movementDirection)
             {
                 _previousDirection = movementDirection;
