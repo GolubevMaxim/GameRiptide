@@ -23,6 +23,15 @@ namespace Chat
             ChatNetwork.CurrentChat = this;
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                chatField.Select();
+                chatField.ActivateInputField();
+            }
+        }
+
         public void SendChatClicked()
         {
             if (chatField.text.Length > 0) ChatNetwork.SendChatMessage(chatField.text);
