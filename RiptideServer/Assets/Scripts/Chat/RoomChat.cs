@@ -14,19 +14,19 @@ namespace Chat
             _chatUserIDs = new List<ushort>();
         }
 
-        public void AddUser(ushort userID)
+        public void AddPlayer(ushort playerID)
         {
-            _chatUserIDs.Add(userID);
+            _chatUserIDs.Add(playerID);
         }
 
-        public void RemoveUser(ushort userID)
+        public void RemovePlayer(ushort playerID)
         {
-            _chatUserIDs.Remove(userID);
+            _chatUserIDs.Remove(playerID);
         }
 
-        public void AddMessageToBuffer(ushort userID, string str)
+        public void AddMessageToBuffer(ushort playerID, string str)
         {
-            _chatBuffer.AddUShort(userID);
+            _chatBuffer.AddUShort(playerID);
             _chatBuffer.AddString(str);
         }
 

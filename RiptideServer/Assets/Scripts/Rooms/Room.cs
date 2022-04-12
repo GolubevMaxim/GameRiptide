@@ -47,7 +47,7 @@ namespace Rooms
             _players[player.NetworkId] = player;
             player.ChangeRoom(this);
             
-            _roomChat.AddUser(player.NetworkId);
+            _roomChat.AddPlayer(player.NetworkId);
 
             var playerTransform = player.transform;
             
@@ -71,7 +71,7 @@ namespace Rooms
             _players[playerId] = player;
             Player.Players.Dictionary[playerId] = player;
             
-            _roomChat.AddUser(player.NetworkId);
+            _roomChat.AddPlayer(player.NetworkId);
             
             _roomNetwork.SendNewPlayer(player);
         }
@@ -81,7 +81,7 @@ namespace Rooms
             if (_players.Remove(networkID))
             {
                 Debug.Log($"Removing player from {this.name}");
-                _roomChat.RemoveUser(networkID);
+                _roomChat.RemovePlayer(networkID);
                 
                 _roomNetwork.SendRemovePlayer(networkID);
                 

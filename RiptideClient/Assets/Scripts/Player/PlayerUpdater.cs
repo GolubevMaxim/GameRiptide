@@ -18,7 +18,7 @@ namespace Player
             
             Flip(direction);
 
-            transform.position += direction * Time.deltaTime * interpolationCoefficient;
+            transform.position = direction * Time.deltaTime * interpolationCoefficient + LayerHandler.getCorrectedZ(transform.position);
         }
 
         private void Flip(Vector2 moveDirection)

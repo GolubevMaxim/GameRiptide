@@ -180,6 +180,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e06ee33cd84a3c041977dce13c858ded, type: 3}
+--- !u!1 &240814704 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 344504884653283440, guid: e06ee33cd84a3c041977dce13c858ded, type: 3}
+  m_PrefabInstance: {fileID: 240814703}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &240814705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240814704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16494d6a913cafb40b072a9d0dabdab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &308474404
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,5 +361,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97853c1be714ed849b204ed3502ae0fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 0}
+  target: {fileID: 0}
   velocityMultiplier: 2
