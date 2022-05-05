@@ -71,8 +71,10 @@ namespace Room
                 var playerId = message.GetUShort();
                 var playerName = message.GetString();
                 var playerPosition = new Vector3(message.GetFloat(), message.GetFloat(), 0);
+                var playerHealthMax = message.GetInt();
+                var playerHealth = message.GetInt();
                 
-                CurrentRoom.SpawnPlayer(playerId, playerName, playerPosition);
+                CurrentRoom.SpawnPlayer(playerId, playerName, playerPosition, playerHealthMax, playerHealth);
             }
         }
         

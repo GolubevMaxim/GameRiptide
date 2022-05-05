@@ -19,7 +19,7 @@ namespace Room
             RoomNetwork.Singleton.SendEnterGameRequest();
         }
         
-        public void SpawnPlayer(ushort id, string nickname, Vector3 position)
+        public void SpawnPlayer(ushort id, string nickname, Vector3 position, int healthMax, int health)
         {
             var player = Instantiate(_playerTemplate, position, Quaternion.identity, transform);
 
@@ -30,7 +30,7 @@ namespace Room
                 player.AddComponent<LocalPlayerController>();
             }
 
-            player.Init(id, nickname);
+            player.Init(id, nickname, healthMax, health);
 
             Players.Dictionary[id] = player;
             _players[id] = player;
