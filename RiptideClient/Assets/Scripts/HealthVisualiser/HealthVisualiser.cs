@@ -7,5 +7,5 @@ public interface HealthVisualiser
     void updateHealth(int health);
     void updateHealthMax(int healthMax);
 
-    void Init(int healthMax, int health);
+    void Init(Transform target, int healthMax, int health);
 }

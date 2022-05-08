@@ -7,11 +7,12 @@ public class SimpleHealthVisualiser : MonoBehaviour, HealthVisualiser
 {
     private int _health;
     private int _healthMax;
-    private TMP_Text text;
+    private TMP_Text _text;
+    private Transform _target = null;
     public void updateHealth(int health)
     {
         _health = health;
-        text.text = _health + " hp";
+        _text.text = _health + " hp";
     }
 
     public void updateHealthMax(int healthMax)
@@ -19,11 +20,18 @@ public class SimpleHealthVisualiser : MonoBehaviour, HealthVisualiser
         _healthMax = healthMax;
     }
 
-    public void Init(int healthMax, int health)
+    public void Init(Transform target, int healthMax, int health)
     {
-        text = GetComponentInChildren<Canvas>().
+        _target = target;
+        _text = GetComponentInChildren<Canvas>().
             GetComponentInChildren<TMP_Text>();
         updateHealthMax(healthMax);
         updateHealth(health);
+    }
+
+    private void Update()
+    {
+        if(_target != null)
+        transform.position = _target.position;
     }
 }
