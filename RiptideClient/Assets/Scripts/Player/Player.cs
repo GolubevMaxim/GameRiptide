@@ -26,6 +26,7 @@ namespace Player
 
         public void setHealth(int health)
         {
+            healthHandler.setHealth(health);
         }
 
         public void setHealthMax(int healthMax)

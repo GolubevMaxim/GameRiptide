@@ -8,4 +8,6 @@ public interface HealthVisualiser
     void updateHealthMax(int healthMax);
 
     void Init(Transform target, int healthMax, int health);
+
+    void Destroy();
 }

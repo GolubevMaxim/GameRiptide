@@ -21,7 +21,8 @@ public enum ServerToClientId : ushort
     RoomPlayers,
     RemovePlayerFromRoom,
     PlayerPositionChange,
-    LoadRoom
+    LoadRoom,
+    UpdateHealth
 }
 public class NetworkManager : MonoBehaviour
 {

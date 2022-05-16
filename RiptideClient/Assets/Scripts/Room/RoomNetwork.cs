@@ -101,5 +101,17 @@ namespace Room
             
             NetworkManager.Singleton.Client.Send(message);
         }
+
+        [MessageHandler((ushort)ServerToClientId.UpdateHealth)]
+        public static void RecieveHealthUpdate(Message message)
+        {
+            Player.Players.Dictionary.TryGetValue(message.GetUShort(), out var player);
+            if (player == null)
+            {
+                message.GetInt();
+                return;
+            }
+            player.setHealth(message.GetInt());
+        }
     }
 }

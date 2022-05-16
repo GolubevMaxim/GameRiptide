@@ -18,8 +18,8 @@ namespace Rooms
             message.AddUShort(player.NetworkId);
             message.AddString(player.NickName);
             message.AddVector2(player.transform.localPosition);
-            message.AddInt(player.HealthMax);
-            message.AddInt(player.Health);
+            message.AddInt(player.playerHealth.HealthMax);
+            message.AddInt(player.playerHealth.Health);
         }
         
         public void SendNewPlayer(Player.Player player)

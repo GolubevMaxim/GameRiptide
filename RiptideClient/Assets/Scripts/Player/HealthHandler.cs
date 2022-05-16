@@ -14,6 +14,7 @@ namespace Player
         public void setHealth(int health)
         {
             _health = health;
+            _healthVisualiser.updateHealth(health);
         }
 
         public void setHealthMax(int healthMax)
@@ -26,6 +27,12 @@ namespace Player
             _healthMax = healthMax;
             _healthVisualiser = Instantiate(_hvTemplate, transform.position, Quaternion.identity).GetComponent<HealthVisualiser>();
             _healthVisualiser.Init(transform, _healthMax, _health);
+        }
+
+        private void OnDestroy()
+        {
+            Debug.Log("Player destroyed.");
+            _healthVisualiser.Destroy();
         }
     }
 }

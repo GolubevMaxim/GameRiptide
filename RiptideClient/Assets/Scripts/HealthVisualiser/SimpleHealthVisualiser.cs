@@ -29,9 +29,16 @@ public class SimpleHealthVisualiser : MonoBehaviour, HealthVisualiser
         updateHealth(health);
     }
 
+    
+
     private void Update()
     {
         if(_target != null)
         transform.position = _target.position;
+    }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
     }
 }
