@@ -2,12 +2,18 @@ using System.Collections.Generic;
 using Chat;
 using UnityEngine;
 
+public enum TargetType
+{
+    player
+}
+
 namespace Rooms
 {
     public class Room : MonoBehaviour
     {
         [SerializeField] private ushort _roomId;
         [SerializeField] private Player.Player _defaultPlayer;
+        [SerializeField] private Spell[] spellPatterns;
         
         private Dictionary<ushort, Player.Player> _players;
         private RoomChat _roomChat;
@@ -94,6 +100,28 @@ namespace Rooms
         public void SendAllPlayers(ushort playerId)
         {
             _roomNetwork.SendAllPlayers(playerId);
+        }
+
+        public void CreateSpell(Player.Player caster, ushort spellID, ushort targetID, ushort targetType)
+        {
+            FireBall fireBall = Instantiate((FireBall)spellPatterns[spellID], caster.transform.position, Quaternion.identity);
+            switch (targetType)
+            {
+                case (ushort)TargetType.player:
+                    if(_players.TryGetValue(targetID, out Player.Player target))
+                    {
+                        fireBall.Init(null, target.transform, this);
+                    }
+                    break;
+                default: return;
+            }
+            
+            //_roomNetwork.SendSpellCreated(0, spellID, new Vector2(caster.transform.localPosition.x, caster.transform.localPosition.y));
+        }
+
+        public void DestroySpell(ushort spellNetworkID)
+        {
+            _roomNetwork.SendSpellDestroyed(spellNetworkID);
         }
     }
 }

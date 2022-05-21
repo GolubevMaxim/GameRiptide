@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Player;
 using RiptideNetworking;
+using UnityEngine;
 
 namespace Rooms
 {
@@ -84,6 +85,38 @@ namespace Rooms
             if (Players.Dictionary.TryGetValue(fromClientId, out var player))
             {
                 player.CurrentRoom.SendAllPlayers(fromClientId);
+            }
+        }
+
+        [MessageHandler((ushort)ClientToServerId.SpellCreateRequest)]
+        public static void GetCreateSpellRequest(ushort fromClientId, Message message)
+        {
+            if (Players.Dictionary.TryGetValue(fromClientId, out var player))
+            {
+                player.CurrentRoom.CreateSpell(player, message.GetUShort(), message.GetUShort(), message.GetUShort());
+            }
+            Debug.Log("Spell creation request recieved.");
+        }
+
+        public void SendSpellCreated(ushort spellNetworkID, ushort spellID, Vector2 spawnPos)
+        {
+            var message = Message.Create(MessageSendMode.reliable, ServerToClientId.SpellCreated);
+            message.AddUShort(spellNetworkID);
+            message.AddUShort(spellID);
+            message.AddVector2(spawnPos);
+            foreach (var playerNetworkID in _room.Players.Keys)
+            {
+                NetworkManager.Singleton.Server.Send(message, playerNetworkID, false);
+            }
+        }
+
+        public void SendSpellDestroyed(ushort spellNetworkID)
+        {
+            var message = Message.Create(MessageSendMode.reliable, ServerToClientId.SpellDestroyed);
+            message.AddUShort(spellNetworkID);
+            foreach (var playerNetworkID in _room.Players.Keys)
+            {
+                NetworkManager.Singleton.Server.Send(message, playerNetworkID, false);
             }
         }
     }

@@ -10,7 +10,8 @@ public enum ClientToServerId : ushort
     LeaveGame,
     Chat,
     DirectionInput,
-    AllPlayersPosition
+    AllPlayersPosition,
+    SpellCreateRequest
 }
 
 public enum ServerToClientId : ushort
@@ -22,7 +23,9 @@ public enum ServerToClientId : ushort
     RemovePlayerFromRoom,
     PlayerPositionChange,
     LoadRoom,
-    UpdateHealth
+    UpdateHealth,
+    SpellCreated,
+    SpellDestroyed
 }
 public class NetworkManager : MonoBehaviour
 {

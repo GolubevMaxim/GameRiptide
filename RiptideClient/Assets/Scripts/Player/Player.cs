@@ -31,6 +31,12 @@ namespace Player
 
         public void setHealthMax(int healthMax)
         {
+            healthHandler.setHealthMax(healthMax);
+        }
+
+        private void OnMouseDown()
+        {
+            GameEvents.setTargetEvent.Invoke(_networkID, TargetType.player);
         }
     }
 }

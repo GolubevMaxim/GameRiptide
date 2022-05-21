@@ -113,5 +113,26 @@ namespace Room
             }
             player.setHealth(message.GetInt());
         }
+
+        public static void SendSpellCreateRequest(ushort spellID, ushort targetID, TargetType targetType)
+        {
+            Message message = Message.Create(MessageSendMode.reliable, ClientToServerId.SpellCreateRequest);
+            message.AddUShort(spellID);
+            message.AddUShort(targetID);
+            message.AddUShort((ushort)targetType);
+            NetworkManager.Singleton.Client.Send(message);
+        }
+
+        [MessageHandler((ushort)ServerToClientId.SpellCreated)]
+        public static void RecieveSpellCreated(Message message)
+        {
+            Debug.Log("Spell created");
+        }
+
+        [MessageHandler((ushort)ServerToClientId.SpellDestroyed)]
+        public static void RecieveSpellDestroyed(Message message)
+        {
+            Debug.Log("Spell destroyed");
+        }
     }
 }

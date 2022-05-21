@@ -134,6 +134,14 @@ PrefabInstance:
       propertyPath: _defaultPlayer
       value: 
       objectReference: {fileID: 2725884823073926956, guid: 055ecda485d713342a378d1276130d81, type: 3}
+    - target: {fileID: -5793236174247303953, guid: e06ee33cd84a3c041977dce13c858ded, type: 3}
+      propertyPath: spellPatterns.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5793236174247303953, guid: e06ee33cd84a3c041977dce13c858ded, type: 3}
+      propertyPath: spellPatterns.Array.data[0]
+      value: 
+      objectReference: {fileID: 248340699258549749, guid: b098a15b977b0e849b90c55e8c32d196, type: 3}
     - target: {fileID: 278177721962594004, guid: e06ee33cd84a3c041977dce13c858ded, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -184,37 +192,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e06ee33cd84a3c041977dce13c858ded, type: 3}
---- !u!1 &864445094
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 864445095}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &864445095
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 864445094}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &913827899
 GameObject:
   m_ObjectHideFlags: 0
