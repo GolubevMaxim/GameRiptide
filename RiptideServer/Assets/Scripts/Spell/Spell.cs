@@ -10,10 +10,13 @@ public enum SpellEffect: ushort
 
 public class Spell : MonoBehaviour
 {
-    [SerializeField] private ushort _networkID;
-    [SerializeField] private ushort _id;
+    [SerializeField] protected ushort _networkID;
+    [SerializeField] protected ushort _id;
     protected Transform _caster;
     [SerializeField] protected Room _room;
+
+    public ushort NetworkID => _networkID;
+    public ushort ID => _id;
 
     public void Init(Room room)
     {

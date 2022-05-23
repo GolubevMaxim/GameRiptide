@@ -14,7 +14,9 @@ namespace Rooms
         [SerializeField] private ushort _roomId;
         [SerializeField] private Player.Player _defaultPlayer;
         [SerializeField] private Spell[] spellPatterns;
-        
+        private Spells _spells;
+        private ushort _idcounter;
+
         private Dictionary<ushort, Player.Player> _players;
         private RoomChat _roomChat;
         
@@ -22,6 +24,7 @@ namespace Rooms
 
         public ushort RoomId => _roomId;
         public Dictionary<ushort, Player.Player>  Players => _players;
+        public Spells Spells => _spells;
         private void Start()
         {
             _roomNetwork = new RoomNetwork(this);
@@ -30,11 +33,14 @@ namespace Rooms
             _roomChat = new RoomChat();
 
             Rooms.Add(_roomId, this);
+            _spells = GetComponent<Spells>();
+            _idcounter = 0;
         }
 
         private void Update()
         {
             _roomNetwork.SendPlayerPositions();
+            _roomNetwork.SendSpellUpdatePos();
         }
 
         public void AddMessageToChat(ushort playerID, string chatMessage)
@@ -110,13 +116,15 @@ namespace Rooms
                 case (ushort)TargetType.player:
                     if(_players.TryGetValue(targetID, out Player.Player target))
                     {
-                        fireBall.Init(null, target.transform, this);
+                        fireBall.Init(caster.transform, target.transform, this, _idcounter);
                     }
                     break;
                 default: return;
             }
-            
-            //_roomNetwork.SendSpellCreated(0, spellID, new Vector2(caster.transform.localPosition.x, caster.transform.localPosition.y));
+            _spells.AddUpdateble(fireBall);
+            _roomNetwork.SendSpellCreated(_idcounter, spellID, caster);
+            if (_idcounter == ushort.MaxValue) _idcounter = 0;
+            else _idcounter++;
         }
 
         public void DestroySpell(ushort spellNetworkID)

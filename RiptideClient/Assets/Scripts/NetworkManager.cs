@@ -25,6 +25,7 @@ public enum ServerToClientId : ushort
     LoadRoom,
     UpdateHealth,
     SpellCreated,
+    SpellUpdate,
     SpellDestroyed
 }
 

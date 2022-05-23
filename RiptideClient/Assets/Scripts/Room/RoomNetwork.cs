@@ -127,12 +127,32 @@ namespace Room
         public static void RecieveSpellCreated(Message message)
         {
             Debug.Log("Spell created");
+            ushort networkID = message.GetUShort();
+            ushort id = message.GetUShort();
+            ushort casterID = message.GetUShort();
+            if(Player.Players.Dictionary.TryGetValue(casterID, out var caster))
+            {
+                CurrentRoom.CreateSpell(networkID, id, caster);
+            }
+        }
+
+        [MessageHandler((ushort)ServerToClientId.SpellUpdate)]
+        public static void RecieveSpellUpdatePos(Message message)
+        {
+            int counter = 0;
+            while(message.UnreadLength > 0)
+            {
+                CurrentRoom.UpdateSpell(message.GetUShort(), message.GetFloat(), message.GetFloat());
+                counter++;
+            }
+            Debug.Log($"Updated {counter} spells");
         }
 
         [MessageHandler((ushort)ServerToClientId.SpellDestroyed)]
         public static void RecieveSpellDestroyed(Message message)
         {
             Debug.Log("Spell destroyed");
+            CurrentRoom.DestroySpell(message.GetUShort());
         }
     }
 }

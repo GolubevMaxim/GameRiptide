@@ -178,6 +178,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Room0
       objectReference: {fileID: 0}
+    - target: {fileID: 4883512655666435242, guid: e06ee33cd84a3c041977dce13c858ded, type: 3}
+      propertyPath: _spellTemplates.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883512655666435242, guid: e06ee33cd84a3c041977dce13c858ded, type: 3}
+      propertyPath: _spellTemplates.Array.data[0]
+      value: 
+      objectReference: {fileID: 4624417749609588789, guid: 09d48cc1efa144d4d83cfe1e6ccfb547, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e06ee33cd84a3c041977dce13c858ded, type: 3}
 --- !u!1 &240814704 stripped

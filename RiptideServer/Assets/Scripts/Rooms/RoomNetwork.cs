@@ -98,15 +98,28 @@ namespace Rooms
             Debug.Log("Spell creation request recieved.");
         }
 
-        public void SendSpellCreated(ushort spellNetworkID, ushort spellID, Vector2 spawnPos)
+        public void SendSpellCreated(ushort spellNetworkID, ushort spellID, Player.Player caster)
         {
             var message = Message.Create(MessageSendMode.reliable, ServerToClientId.SpellCreated);
             message.AddUShort(spellNetworkID);
             message.AddUShort(spellID);
-            message.AddVector2(spawnPos);
+            message.AddUShort(caster.NetworkId);
             foreach (var playerNetworkID in _room.Players.Keys)
             {
                 NetworkManager.Singleton.Server.Send(message, playerNetworkID, false);
+            }
+        }
+
+        public void SendSpellUpdatePos()
+        {
+            var message = Message.Create(MessageSendMode.unreliable, ServerToClientId.SpellUpdate);
+            if (_room.Spells.AddUpdatableToMessage(message))
+            {
+                foreach (var playerNetworkID in _room.Players.Keys)
+                {
+                    NetworkManager.Singleton.Server.Send(message, playerNetworkID, false);
+                }
+                Debug.Log($"updating {message.WrittenLength/13} spells");
             }
         }
 

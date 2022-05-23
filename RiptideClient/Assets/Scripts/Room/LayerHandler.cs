@@ -9,6 +9,11 @@ public class LayerHandler : MonoBehaviour
         return new Vector3(position.x, position.y, 0.01f * position.y);
     }
 
+    public static Vector3 getCorrectedZ(float x, float y)
+    {
+        return new Vector3(x, y, 0.01f * y);
+    }
+
     void Start()
     {
         GameObject[] roomObjects = GameObject.FindGameObjectsWithTag("RoomPart");
