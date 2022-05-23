@@ -34,10 +34,7 @@ public class Spell : MonoBehaviour
 
     private static Vector3 Rotate(float x, float y)
     {
-        if(x >= 0)
-            return new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan(y / x));
-        else
-            return new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan(y / x) - 180);
+            return new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan2(y, x));
     }
 
     public void Destroy()

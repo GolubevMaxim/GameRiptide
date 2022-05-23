@@ -110,25 +110,37 @@ namespace Rooms
 
         public void CreateSpell(Player.Player caster, ushort spellID, ushort targetID, ushort targetType)
         {
-            FireBall fireBall = Instantiate((FireBall)spellPatterns[spellID], caster.transform.position, Quaternion.identity);
+            Transform target = null;
             switch (targetType)
             {
                 case (ushort)TargetType.player:
-                    if(_players.TryGetValue(targetID, out Player.Player target))
+                    if(_players.TryGetValue(targetID, out Player.Player player))
                     {
-                        fireBall.Init(caster.transform, target.transform, this, _idcounter);
+                        target = player.transform;
                     }
                     break;
                 default: return;
             }
-            _spells.AddUpdateble(fireBall);
-            _roomNetwork.SendSpellCreated(_idcounter, spellID, caster);
-            if (_idcounter == ushort.MaxValue) _idcounter = 0;
-            else _idcounter++;
+            switch (spellID)
+            {
+                case 0:
+                    FireBall fireBall = Instantiate((FireBall)spellPatterns[spellID], caster.transform.position, Quaternion.identity, transform);
+                    fireBall.Init(caster.transform, target, this, _idcounter);
+                    _spells.AddUpdateble(fireBall);
+                    break;
+                default: return;
+            }
+            if (_spells.GetSpell(_idcounter) != null)
+            {
+                _roomNetwork.SendSpellCreated(_idcounter, spellID, caster);
+                if (_idcounter == ushort.MaxValue) _idcounter = 0;
+                else _idcounter++;
+            }
         }
 
         public void DestroySpell(ushort spellNetworkID)
         {
+            _spells.Remove(spellNetworkID);
             _roomNetwork.SendSpellDestroyed(spellNetworkID);
         }
     }

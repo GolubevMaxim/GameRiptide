@@ -42,7 +42,7 @@ namespace Player
             Players.Dictionary.Remove(_networkID);
             _currentRoom.TryRemovePlayer(_networkID);
             
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 }   

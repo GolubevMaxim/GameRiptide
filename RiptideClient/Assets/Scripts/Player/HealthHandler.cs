@@ -9,6 +9,7 @@ namespace Player
         private int _healthMax;
         private int _health;
         [SerializeField] private GameObject _hvTemplate;
+        private GameObject _hvObj;
         private HealthVisualiser _healthVisualiser;
 
         public void setHealth(int health)
@@ -25,14 +26,15 @@ namespace Player
         {
             _health = health;
             _healthMax = healthMax;
-            _healthVisualiser = Instantiate(_hvTemplate, transform.position, Quaternion.identity).GetComponent<HealthVisualiser>();
+            _hvObj = Instantiate(_hvTemplate, transform.position, Quaternion.identity);
+            _healthVisualiser = _hvObj.GetComponent<HealthVisualiser>();
             _healthVisualiser.Init(transform, _healthMax, _health);
         }
 
         private void OnDestroy()
         {
             Debug.Log("Player destroyed.");
-            _healthVisualiser.Destroy();
+            Destroy(_hvObj);
         }
     }
 }

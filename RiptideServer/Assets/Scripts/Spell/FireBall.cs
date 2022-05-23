@@ -33,7 +33,6 @@ public class FireBall : Spell
         {
             victim.ApplyDamage(_dmg);
         }
-        _room.Spells.Remove(_networkID);
         Destroy(gameObject);
     }
 }

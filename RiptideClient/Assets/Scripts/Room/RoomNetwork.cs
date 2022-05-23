@@ -126,7 +126,6 @@ namespace Room
         [MessageHandler((ushort)ServerToClientId.SpellCreated)]
         public static void RecieveSpellCreated(Message message)
         {
-            Debug.Log("Spell created");
             ushort networkID = message.GetUShort();
             ushort id = message.GetUShort();
             ushort casterID = message.GetUShort();
@@ -145,13 +144,11 @@ namespace Room
                 CurrentRoom.UpdateSpell(message.GetUShort(), message.GetFloat(), message.GetFloat());
                 counter++;
             }
-            Debug.Log($"Updated {counter} spells");
         }
 
         [MessageHandler((ushort)ServerToClientId.SpellDestroyed)]
         public static void RecieveSpellDestroyed(Message message)
         {
-            Debug.Log("Spell destroyed");
             CurrentRoom.DestroySpell(message.GetUShort());
         }
     }

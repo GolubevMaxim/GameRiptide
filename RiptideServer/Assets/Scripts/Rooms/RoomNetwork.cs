@@ -95,7 +95,6 @@ namespace Rooms
             {
                 player.CurrentRoom.CreateSpell(player, message.GetUShort(), message.GetUShort(), message.GetUShort());
             }
-            Debug.Log("Spell creation request recieved.");
         }
 
         public void SendSpellCreated(ushort spellNetworkID, ushort spellID, Player.Player caster)
@@ -119,7 +118,6 @@ namespace Rooms
                 {
                     NetworkManager.Singleton.Server.Send(message, playerNetworkID, false);
                 }
-                Debug.Log($"updating {message.WrittenLength/13} spells");
             }
         }
 

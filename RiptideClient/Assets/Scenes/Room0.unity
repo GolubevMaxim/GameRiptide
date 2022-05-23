@@ -193,7 +193,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 344504884653283440, guid: e06ee33cd84a3c041977dce13c858ded, type: 3}
   m_PrefabInstance: {fileID: 240814703}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &240814705
+--- !u!4 &240814706 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 278177721962594004, guid: e06ee33cd84a3c041977dce13c858ded, type: 3}
+  m_PrefabInstance: {fileID: 240814703}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &240814707
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -202,14 +207,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 240814704}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16494d6a913cafb40b072a9d0dabdab7, type: 3}
+  m_Script: {fileID: 11500000, guid: dd56b1902019307448af24ba231ce0f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &240814706 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 278177721962594004, guid: e06ee33cd84a3c041977dce13c858ded, type: 3}
-  m_PrefabInstance: {fileID: 240814703}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &308474404
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,50 +276,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &416752209
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 416752211}
-  - component: {fileID: 416752210}
-  m_Layer: 0
-  m_Name: SpellCaster
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &416752210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 416752209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd56b1902019307448af24ba231ce0f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &416752211
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 416752209}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.7097597, y: 1.6515384, z: 0.18560033}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1535260440
 GameObject:

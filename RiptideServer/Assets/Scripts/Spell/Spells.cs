@@ -4,7 +4,6 @@ using RiptideNetworking;
 
 public class Spells : MonoBehaviour
 {
-    private ushort _idcounter;
     private Dictionary<ushort, Spell> _updatebleSpells;
     private Dictionary<ushort, Spell> _attachedSpells;
 
@@ -12,21 +11,25 @@ public class Spells : MonoBehaviour
     {
         _updatebleSpells = new();
         _attachedSpells = new();
-        _idcounter = 0;
     }
 
     public void AddUpdateble(Spell spell)
     {
-        _updatebleSpells.Add(spell.NetworkID, spell);
-        if (_idcounter == ushort.MaxValue) _idcounter = 0;
-        else _idcounter++;        
+        _updatebleSpells.Add(spell.NetworkID, spell);       
     }
 
     public void AddAttached(Spell spell)
     {
         _attachedSpells.Add(spell.NetworkID, spell);
-        if (_idcounter == ushort.MaxValue) _idcounter = 0;
-        else _idcounter++;
+    }
+
+    public Spell GetSpell(ushort id)
+    {
+        if(_updatebleSpells.TryGetValue(id, out Spell spell))
+            return spell;
+        if (_attachedSpells.TryGetValue(id, out spell))
+            return spell;
+        return null;
     }
 
     public void Remove(ushort id)
@@ -42,8 +45,8 @@ public class Spells : MonoBehaviour
         foreach(Spell spell in _updatebleSpells.Values)
         {
             message.AddUShort(spell.NetworkID);
-            message.AddFloat(spell.transform.position.x);
-            message.AddFloat(spell.transform.position.y);
+            message.AddFloat(spell.transform.localPosition.x);
+            message.AddFloat(spell.transform.localPosition.y);
         }
         return true;
     }
@@ -56,8 +59,8 @@ public class Spells : MonoBehaviour
         {
             message.AddUShort(spell.NetworkID);
             message.AddUShort(spell.ID);
-            message.AddFloat(spell.transform.position.x);
-            message.AddFloat(spell.transform.position.y);
+            message.AddFloat(spell.transform.localPosition.x);
+            message.AddFloat(spell.transform.localPosition.y);
         }
         foreach (Spell spell in _attachedSpells.Values)
         {
