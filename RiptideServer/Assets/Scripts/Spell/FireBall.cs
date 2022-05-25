@@ -24,7 +24,7 @@ public class FireBall : Spell
 
     private void Update()
     {
-        rgbd.velocity = (_target.transform.position - transform.position).normalized * _speed;
+        if(_target != null) rgbd.velocity = (_target.transform.position - transform.position).normalized * _speed;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
