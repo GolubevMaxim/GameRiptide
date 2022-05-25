@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Chat;
+using Enemies;
 using UnityEngine;
 
 public enum TargetType
@@ -13,34 +14,49 @@ namespace Rooms
     {
         [SerializeField] private ushort _roomId;
         [SerializeField] private Player.Player _defaultPlayer;
+        [SerializeField] private Enemy _defaultEnemy;
+        
         [SerializeField] private Spell[] spellPatterns;
+        
         private Spells _spells;
         private ushort _idcounter;
 
+        private ushort _lastEnemyId = 0;
+
         private Dictionary<ushort, Player.Player> _players;
+        private Dictionary<ushort, Enemy> _enemies;
+        
         private RoomChat _roomChat;
         
         private RoomNetwork _roomNetwork;
 
         public ushort RoomId => _roomId;
+        
         public Dictionary<ushort, Player.Player>  Players => _players;
+        public Dictionary<ushort, Enemy> Enemies => _enemies;
+        
         public Spells Spells => _spells;
         private void Start()
         {
             _roomNetwork = new RoomNetwork(this);
             
             _players = new Dictionary<ushort, Player.Player>();
+            _enemies = new Dictionary<ushort, Enemy>();
+            
             _roomChat = new RoomChat();
 
             Rooms.Add(_roomId, this);
             _spells = GetComponent<Spells>();
             _idcounter = 0;
+            
+            SummonEnemy();
         }
 
         private void Update()
         {
             _roomNetwork.SendPlayerPositions();
             _roomNetwork.SendSpellUpdatePos();
+            _roomNetwork.SendEnemies();
         }
 
         public void AddMessageToChat(ushort playerID, string chatMessage)
@@ -142,6 +158,15 @@ namespace Rooms
         {
             _spells.Remove(spellNetworkID);
             _roomNetwork.SendSpellDestroyed(spellNetworkID);
+        }
+
+        public void SummonEnemy()
+        {
+            var enemy = Instantiate(_defaultEnemy, Vector3.zero, Quaternion.identity, transform);
+            enemy.transform.localPosition = new Vector3(10, 10, 0);
+            enemy.Init(_lastEnemyId);
+            
+            _enemies[_lastEnemyId++] = enemy;
         }
     }
 }

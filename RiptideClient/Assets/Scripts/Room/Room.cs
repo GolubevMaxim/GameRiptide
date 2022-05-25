@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Enemies;
 using Player;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -9,8 +10,12 @@ namespace Room
     {
         [SerializeField] private ushort _roomId;
         [SerializeField] private Player.Player _playerTemplate;
+        [SerializeField] private Enemy _enemyTemplate;
         [SerializeField] private Spell[] _spellTemplates;
+        
+        
         private readonly Dictionary<ushort, Player.Player> _players = new();
+        private readonly Dictionary<ushort, Enemy> _enemies = new();
         private readonly Dictionary<ushort, Spell> _spells = new();
         public ushort RoomId => _roomId;
         
@@ -35,6 +40,21 @@ namespace Room
 
             Players.Dictionary[id] = player;
             _players[id] = player;
+        }
+
+        public void EnemyUpdate(ushort id, Vector2 position)
+        {
+            if (_enemies.TryGetValue(id, out var enemy))
+            {
+                enemy.transform.position = position;
+            }
+            else
+            {
+                var newEnemy = Instantiate(_enemyTemplate, position, Quaternion.identity, transform);
+                newEnemy.Init(id);
+                
+                _enemies[id] = newEnemy;
+            }
         }
 
         public void RemovePlayer(ushort id)

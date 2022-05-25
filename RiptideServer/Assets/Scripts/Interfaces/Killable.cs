@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface Killable
 {
-    void ApplyDamage(int dmg);
+    void ApplyDamage(int damage);
     void ApplyHeal(int heal);
     void Die();
 }

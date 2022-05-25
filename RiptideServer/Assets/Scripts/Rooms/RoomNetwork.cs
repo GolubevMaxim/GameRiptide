@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Enemies;
 using Player;
 using RiptideNetworking;
 using UnityEngine;
@@ -14,20 +15,13 @@ namespace Rooms
             _room = room;
         }
 
-        private void AddPlayerDataToMessage(Message message, Player.Player player)
-        {
-            message.AddUShort(player.NetworkId);
-            message.AddString(player.NickName);
-            message.AddVector2(player.transform.localPosition);
-            message.AddInt(player.playerHealth.HealthMax);
-            message.AddInt(player.playerHealth.Health);
-        }
+        
         
         public void SendNewPlayer(Player.Player player)
         {
             var message = Message.Create(MessageSendMode.reliable, ServerToClientId.RoomPlayers);
             
-            AddPlayerDataToMessage(message, player);
+            message.AddPlayer(player);
             
             foreach (var playerNetworkID in _room.Players.Keys.Where(playerNetworkID => playerNetworkID != player.NetworkId))
                 NetworkManager.Singleton.Server.Send(message, playerNetworkID);
@@ -40,7 +34,7 @@ namespace Rooms
             var message = Message.Create(MessageSendMode.reliable, ServerToClientId.RoomPlayers);
             
             foreach (var otherPlayer in _room.Players.Values)
-                AddPlayerDataToMessage(message, otherPlayer);
+                message.AddPlayer(otherPlayer);
 
             NetworkManager.Singleton.Server.Send(message, playerId);
         }
@@ -124,7 +118,24 @@ namespace Rooms
         public void SendSpellDestroyed(ushort spellNetworkID)
         {
             var message = Message.Create(MessageSendMode.reliable, ServerToClientId.SpellDestroyed);
+            
             message.AddUShort(spellNetworkID);
+            
+            foreach (var playerNetworkID in _room.Players.Keys)
+            {
+                NetworkManager.Singleton.Server.Send(message, playerNetworkID, false);
+            }
+        }
+        
+        public void SendEnemies()
+        {
+            var message = Message.Create(MessageSendMode.reliable, ServerToClientId.Enemies);
+
+            foreach (var enemy in _room.Enemies.Values)
+            {
+                message.AddEnemy(enemy);
+            }
+            
             foreach (var playerNetworkID in _room.Players.Keys)
             {
                 NetworkManager.Singleton.Server.Send(message, playerNetworkID, false);

@@ -18,9 +18,9 @@ namespace Player
             _player = GetComponent<Player>();
         }
 
-        public void ApplyDamage(int dmg)
+        public void ApplyDamage(int damage)
         {
-            _health -= dmg;
+            _health -= damage;
             SendHealthUpdate();
             if (_health < 0)
             {

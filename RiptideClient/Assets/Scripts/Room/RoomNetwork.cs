@@ -78,6 +78,20 @@ namespace Room
             }
         }
         
+        [MessageHandler((ushort)ServerToClientId.Enemies)]
+        private static void ReceiveEnemies(Message message)
+        {
+            if (CurrentRoom == null) return;
+            
+            while (message.UnreadLength > 0)
+            {
+                var id = message.GetUShort();
+                var position = message.GetVector2();
+                
+                CurrentRoom.EnemyUpdate(id, position);
+            }
+        }
+        
         [MessageHandler((ushort)ServerToClientId.RemovePlayerFromRoom)]
         private static void RemovePlayerFromRoom(Message message)
         {
@@ -116,19 +130,22 @@ namespace Room
 
         public static void SendSpellCreateRequest(ushort spellID, ushort targetID, TargetType targetType)
         {
-            Message message = Message.Create(MessageSendMode.reliable, ClientToServerId.SpellCreateRequest);
+            var message = Message.Create(MessageSendMode.reliable, ClientToServerId.SpellCreateRequest);
+            
             message.AddUShort(spellID);
             message.AddUShort(targetID);
             message.AddUShort((ushort)targetType);
+            
             NetworkManager.Singleton.Client.Send(message);
         }
 
         [MessageHandler((ushort)ServerToClientId.SpellCreated)]
-        public static void RecieveSpellCreated(Message message)
+        public static void ReceiveSpellCreated(Message message)
         {
-            ushort networkID = message.GetUShort();
-            ushort id = message.GetUShort();
-            ushort casterID = message.GetUShort();
+            var networkID = message.GetUShort();
+            var id = message.GetUShort();
+            var casterID = message.GetUShort();
+            
             if(Player.Players.Dictionary.TryGetValue(casterID, out var caster))
             {
                 CurrentRoom.CreateSpell(networkID, id, caster);
@@ -136,9 +153,10 @@ namespace Room
         }
 
         [MessageHandler((ushort)ServerToClientId.SpellUpdate)]
-        public static void RecieveSpellUpdatePos(Message message)
+        public static void ReceiveSpellUpdatePos(Message message)
         {
-            int counter = 0;
+            var counter = 0;
+            
             while(message.UnreadLength > 0)
             {
                 CurrentRoom.UpdateSpell(message.GetUShort(), message.GetFloat(), message.GetFloat());
@@ -147,7 +165,7 @@ namespace Room
         }
 
         [MessageHandler((ushort)ServerToClientId.SpellDestroyed)]
-        public static void RecieveSpellDestroyed(Message message)
+        public static void ReceiveSpellDestroyed(Message message)
         {
             CurrentRoom.DestroySpell(message.GetUShort());
         }

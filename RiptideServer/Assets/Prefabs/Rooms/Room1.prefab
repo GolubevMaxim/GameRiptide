@@ -79,7 +79,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e8793bc4bcc5b145a5f0a7db7bb97a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultPlayer: {fileID: 2725884823073926956, guid: 055ecda485d713342a378d1276130d81, type: 3}
+  _roomId: 0
+  _defaultPlayer: {fileID: 2725884823073926956, guid: 055ecda485d713342a378d1276130d81, type: 3}
+  _defaultEnemy: {fileID: -4362448480422619122, guid: e19a3d12de6956f4cbef1e0708563f47, type: 3}
+  spellPatterns: []
 --- !u!1 &9110155762427877036
 GameObject:
   m_ObjectHideFlags: 0

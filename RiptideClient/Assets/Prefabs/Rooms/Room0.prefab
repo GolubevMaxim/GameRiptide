@@ -50,6 +50,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _roomId: 0
   _playerTemplate: {fileID: 1793382264417077142, guid: 2f113ac70a1a1af4a9f5bc0db5ca851b, type: 3}
+  _enemyTemplate: {fileID: 1147014876910425144, guid: 66d4f196752c5534f90ed6552f9f7e8a, type: 3}
+  _spellTemplates: []
 --- !u!114 &6813833826450302136
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -26,7 +26,8 @@ public enum ServerToClientId : ushort
     UpdateHealth,
     SpellCreated,
     SpellUpdate,
-    SpellDestroyed
+    SpellDestroyed,
+    Enemies
 }
 public class NetworkManager : MonoBehaviour
 {
