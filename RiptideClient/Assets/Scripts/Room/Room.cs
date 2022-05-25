@@ -46,7 +46,7 @@ namespace Room
         {
             if (_enemies.TryGetValue(id, out var enemy))
             {
-                enemy.transform.position = position;
+                enemy.enemyUpdater.SetPosition(position);
             }
             else
             {
