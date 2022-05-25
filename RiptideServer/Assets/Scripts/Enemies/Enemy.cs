@@ -3,6 +3,7 @@
 namespace Enemies
 {
     [RequireComponent(typeof(EnemyHealth))]
+    [RequireComponent(typeof(EnemyMovement))]
     public class Enemy : MonoBehaviour
     {
         private ushort _id;
