@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Rooms;
+using UnityEngine;
 
 namespace Enemies
 {
@@ -9,10 +10,15 @@ namespace Enemies
         private ushort _id;
 
         public ushort Id => _id;
+
+        private Room _room;
+
+        public Room Room => _room;
         
-        public void Init(ushort id)
+        public void Init(ushort id, Room room)
         {
             _id = id;
+            _room = room;
         }
     }
 }

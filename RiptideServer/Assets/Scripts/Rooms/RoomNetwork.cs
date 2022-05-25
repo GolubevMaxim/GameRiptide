@@ -141,5 +141,17 @@ namespace Rooms
                 NetworkManager.Singleton.Server.Send(message, playerNetworkID, false);
             }
         }
+        
+        public void EnemyDie(ushort id)
+        {
+            var message = Message.Create(MessageSendMode.reliable, ServerToClientId.EnemyDie);
+            
+            message.AddUShort(id);
+            
+            foreach (var playerNetworkID in _room.Players.Keys)
+            {
+                NetworkManager.Singleton.Server.Send(message, playerNetworkID, false);
+            }
+        }
     }
 }

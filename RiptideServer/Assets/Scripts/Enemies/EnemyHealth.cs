@@ -40,7 +40,8 @@ namespace Enemies
 
         public void Die()
         {
-            Destroy(gameObject);
+            _enemy.Room.DestroyEnemy(_enemy.Id);
+            
             Debug.Log($"Here {this.name} should have died.");
         }
     }

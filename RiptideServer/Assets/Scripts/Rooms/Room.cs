@@ -164,9 +164,18 @@ namespace Rooms
         {
             var enemy = Instantiate(_defaultEnemy, Vector3.zero, Quaternion.identity, transform);
             enemy.transform.localPosition = new Vector3(10, 10, 0);
-            enemy.Init(_lastEnemyId);
+            enemy.Init(_lastEnemyId, this);
             
             _enemies[_lastEnemyId++] = enemy;
+        }
+
+        public void DestroyEnemy(ushort id)
+        {
+            var enemy = _enemies[id];
+            _enemies.Remove(id);
+            
+            Destroy(enemy.gameObject);
+            _roomNetwork.EnemyDie(id);
         }
     }
 }

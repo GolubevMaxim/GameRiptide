@@ -92,6 +92,16 @@ namespace Room
             }
         }
         
+        [MessageHandler((ushort)ServerToClientId.EnemyDie)]
+        private static void EnemyDie(Message message)
+        {
+            if (CurrentRoom == null) return;
+            
+            var id = message.GetUShort();
+            
+            CurrentRoom.RemoveEnemy(id);
+        }
+        
         [MessageHandler((ushort)ServerToClientId.RemovePlayerFromRoom)]
         private static void RemovePlayerFromRoom(Message message)
         {
@@ -117,7 +127,7 @@ namespace Room
         }
 
         [MessageHandler((ushort)ServerToClientId.UpdateHealth)]
-        public static void RecieveHealthUpdate(Message message)
+        public static void ReceiveHealthUpdate(Message message)
         {
             Player.Players.Dictionary.TryGetValue(message.GetUShort(), out var player);
             if (player == null)

@@ -88,5 +88,12 @@ namespace Room
                 spell.Destroy();
             }
         }
+
+        public void RemoveEnemy(ushort id)
+        {
+            Destroy(_enemies[id].gameObject);
+            
+            _enemies.Remove(id);
+        }
     }
 }
