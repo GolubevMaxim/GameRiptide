@@ -12,5 +12,10 @@ namespace Enemies
         {
             _id = id;
         }
+
+        private void OnMouseDown()
+        {
+            GameEvents.setTargetEvent.Invoke(_id, TargetType.mobe);
+        }
     }
 }

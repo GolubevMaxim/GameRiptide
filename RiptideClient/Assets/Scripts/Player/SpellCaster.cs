@@ -5,7 +5,8 @@ using UnityEngine.Events;
 
 public enum TargetType
 {
-    player
+    player,
+    mobe
 }
 
 public class SpellCaster : MonoBehaviour

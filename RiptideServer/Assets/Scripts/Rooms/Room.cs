@@ -5,7 +5,8 @@ using UnityEngine;
 
 public enum TargetType
 {
-    player
+    player,
+    mobe
 }
 
 namespace Rooms
@@ -133,6 +134,12 @@ namespace Rooms
                     if(_players.TryGetValue(targetID, out Player.Player player))
                     {
                         target = player.transform;
+                    }
+                    break;
+                case (ushort)TargetType.mobe:
+                    if (_enemies.TryGetValue(targetID, out Enemy enemy))
+                    {
+                        target = enemy.transform;
                     }
                     break;
                 default: return;
